@@ -338,3 +338,23 @@ def read_side_human(side_human_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Side Human not found")
     return side_human
 
+
+# --- РЕСЕТИРАЊЕ НА ПРОГРЕС ЗА НОВА ПАРТИЈА ---
+@app.post("/players/{player_id}/reset/")
+def reset_player_progress(player_id: int, db: Session = Depends(get_db)):
+    """
+    Го брише целиот прогрес во базата за овој играч и ги враќа неговите поени на 0,
+    овозможувајќи му повторно да ја игра играта.
+    """
+    player = db.query(Player).filter(Player.id == player_id).first()
+    if not player:
+        raise HTTPException(status_code=404, detail="Играчот не е пронајден")
+
+    # 1. Го бришеме запишаниот прогрес за ова ID во базата
+    db.query(PlayerProgress).filter(PlayerProgress.player_id == player_id).delete()
+
+    # 2. Му ги ресетираме поените на 0 за новата партија
+    player.score = 0
+    db.commit()
+
+    return {"status": "success", "message": "Прогресот и поените се успешно ресетирани!"}

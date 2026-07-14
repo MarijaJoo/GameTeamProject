@@ -117,23 +117,28 @@ def reset_game():
     current_npc = None
     game_state = "PLAYING"
 
+    # 1. ПРВО ПОВИКУВАМЕ API за да го избришеме претходниот прогрес на овој играч
+    try:
+        requests.post(f"{API_URL}/players/{player_id}/reset/")
+        score = 0  # И локално ги ресетираме поените на 0
+    except Exception as e:
+        print(f"Грешка при ресетирање на прогресот: {e}")
+
     loaded_npcs = []
 
     try:
-        # Се обидуваме да ги повлечеме сценаријата од базата преку API
+        # 2. Потоа ги влечеме сценаријата од базата
         response = requests.get(f"{API_URL}/scenarios/")
         if response.status_code == 200:
             scenarios = response.json()
             for i, sc in enumerate(scenarios):
-                # Динамичко пресметување на позицијата на секое NPC на патот
                 x_pos = 600 + i * 550
-                y_pos = 510 + (i % 3) * 5  # Различна висина за поприроден изглед
+                y_pos = 510 + (i % 3) * 5
 
                 actions = sc["actions"]
                 ans1 = actions[0]["action_text"] if len(actions) > 0 else "Опција 1"
                 ans2 = actions[1]["action_text"] if len(actions) > 1 else "Опција 2"
 
-                # Наоѓаме која опција е точна и ги распределуваме пораките за точен/неточен избор
                 correct_choice = 1
                 fb_correct = "Точно!"
                 fb_wrong = "Грешка!"
@@ -145,27 +150,20 @@ def reset_game():
                     else:
                         fb_wrong = action["animal_message"]
 
-                # Креирање на NPC објектот
                 npc = NPC(x_pos, y_pos, sc["npc_name"], sc["description"], ans1, ans2, correct_choice, fb_correct,
                           fb_wrong)
 
-                # ДИНАМИЧКИ АТРИБУТИ: Ги зачувуваме ID-ата за подоцна да ги испратиме во /progress/
                 npc.scenario_id = sc["id"]
                 npc.action1_id = actions[0]["id"] if len(actions) > 0 else None
                 npc.action2_id = actions[1]["id"] if len(actions) > 1 else None
 
                 loaded_npcs.append(npc)
 
-            # Вчитај ги тековните поени на играчот од базата
-            p_res = requests.get(f"{API_URL}/players/{player_id}")
-            if p_res.status_code == 200:
-                score = p_res.json()["score"]
-
             return loaded_npcs
     except Exception as e:
         print(f"Грешка со API, вчитани се локалните резервни податоци: {e}")
 
-    # РЕЗЕРВНА ВАРЈАНТА (ОФЛАЈН) - Ако API-то е исклучено, играта нема да крашне!
+    # Резервна локална варијанта во случај на офлајн мод
     return [
         NPC(600, 510, "Сигурносен Асистент", "Ајде да направиме сигурна лозинка\nза твојот нов профил.",
             "1. Избери '123456'", "2. Избери 'Tiger!98'", 2,
