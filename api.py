@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 import os
 from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DateTime, text
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DateTime, text, Table
 from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
 
 # =====================================================================
@@ -12,32 +11,19 @@ from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
 # =====================================================================
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-if DATABASE_URL is None:
-    raise ValueError("Грешка: DATABASE_URL не е пронајден во твојот .env фајл!")
-=======
-from fastapi import FastAPI, HTTPException, Depends
-from sqlalchemy import create_engine, Column, Integer, String, Table, ForeignKey
-from sqlalchemy.orm import sessionmaker, Session, relationship, declarative_base
-from pydantic import BaseModel
-
-# 1. Подесување на конекцијата
-DATABASE_URL = "postgresql://user:password@localhost/game_db"
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
+# Доколку нема DATABASE_URL во .env, користиме локална Postgres база како резерва
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/game_db")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-<<<<<<< HEAD
 
 # =====================================================================
 # 2. SQLALCHEMY МОДЕЛИ (База на податоци)
 # =====================================================================
-=======
-# --- 2. Сврзна табела за Many-to-Many релација ---
-# Оваа табела служи како мост меѓу SideHuman и Answer
+
+# --- Сврзна табела за Many-to-Many релација меѓу SideHuman и Answer ---
 side_human_answers = Table(
     "side_human_answers",
     Base.metadata,
@@ -46,16 +32,12 @@ side_human_answers = Table(
 )
 
 
-# --- 3. SQLAlchemy Модели (База) ---
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
-
 class Player(Base):
     __tablename__ = "players"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     score = Column(Integer, default=0)
 
-<<<<<<< HEAD
     # Релација кон табелата за прогрес
     progress = relationship("PlayerProgress", back_populates="player")
 
@@ -96,7 +78,26 @@ class PlayerProgress(Base):
     action = relationship("Action")
 
 
-# Автоматско креирање на сите табели во PostgreSQL
+class SideHuman(Base):
+    __tablename__ = "side_humans"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True)
+
+    # Релација со Answer преку сврзната табела
+    solutions = relationship("Answer", secondary=side_human_answers, back_populates="side_humans")
+
+
+class Answer(Base):
+    __tablename__ = "right_answers"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True)
+    description = Column(String)
+
+    # Контра-релација
+    side_humans = relationship("SideHuman", secondary=side_human_answers, back_populates="solutions")
+
+
+# Автоматско креирање на сите табели во базата
 Base.metadata.create_all(bind=engine)
 
 
@@ -136,48 +137,9 @@ class ProgressCreate(BaseModel):
     action_id: int
 
 
-# =====================================================================
-# 4. ИНИЦИЈАЛИЗАЦИЈА НА FASTAPI И DEPENDENCY
-# =====================================================================
-app = FastAPI(title="Cyber Security Game API")
-
-
-# Dependency за добивање сесија од базата
-=======
-
-class SideHuman(Base):
-    __tablename__ = "side_humans"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True)
-
-    # Релација со Answer преку свзната табела
-    solutions = relationship("Answer", secondary=side_human_answers, back_populates="side_humans")
-
-
-class Answer(Base):
-    __tablename__ = "right_answers"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True)
-    description = Column(String)
-
-    # Контра-релација (опционално, но корисно ако сакаш да знаеш кој Human го има овој одговор)
-    side_humans = relationship("SideHuman", secondary=side_human_answers, back_populates="solutions")
-
-
-# Креирање на сите табели одеднаш
-Base.metadata.create_all(bind=engine)
-
-
-# --- 4. Pydantic Модели (DTO) ---
-
-class PlayerCreate(BaseModel):
-    username: str
-    score: int
-
-
 class SideHumanCreate(BaseModel):
     name: str
-    solutions: set[int]  # Клиентот сè уште праќа сет од ID-иња (на пр. [1, 2])
+    solutions: set[int]  # Клиентот праќа сет од ID-иња на одговори (на пр. [1, 2])
 
 
 class AnswerCreate(BaseModel):
@@ -185,12 +147,14 @@ class AnswerCreate(BaseModel):
     description: str
 
 
-# --- 5. Иницијализација на FastAPI ---
+# =====================================================================
+# 4. ИНИЦИЈАЛИЗАЦИЈА НА FASTAPI И DEPENDENCY
+# =====================================================================
 
-app = FastAPI()
+app = FastAPI(title="Cyber Security Game API")
 
 
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
+# Dependency за добивање сесија од базата
 def get_db():
     db = SessionLocal()
     try:
@@ -199,7 +163,6 @@ def get_db():
         db.close()
 
 
-<<<<<<< HEAD
 # =====================================================================
 # 5. REST ЕНДПОИНТИ
 # =====================================================================
@@ -210,7 +173,7 @@ def seed_database(db: Session = Depends(get_db)):
     """
     Го чита seed_data.sql фајлот и ја полни базата со почетни прашања и одговори.
     """
-    # Спречуваме дуплирање на податоци ако веќе има нешто во базата
+    # Спречуваме дуплирање на податоци
     if db.query(Scenario).first() is not None:
         return {"message": "Базата веќе содржи податоци. Нема потреба од седување."}
 
@@ -231,20 +194,11 @@ def seed_database(db: Session = Depends(get_db)):
 
 
 # --- ИГРАЧИ (PLAYERS) ---
-=======
-# --- 6. REST Ендпоинти ---
-
-# --- PLAYERS ---
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
 @app.post("/players/")
 def create_player(player: PlayerCreate, db: Session = Depends(get_db)):
     db_player = db.query(Player).filter(Player.username == player.username).first()
     if db_player:
-<<<<<<< HEAD
         return db_player  # Ако постои играчот, само го враќаме за да се логира
-=======
-        raise HTTPException(status_code=400, detail="Username already registered")
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
 
     new_player = Player(username=player.username, score=player.score)
     db.add(new_player)
@@ -257,7 +211,6 @@ def create_player(player: PlayerCreate, db: Session = Depends(get_db)):
 def read_player(player_id: int, db: Session = Depends(get_db)):
     player = db.query(Player).filter(Player.id == player_id).first()
     if player is None:
-<<<<<<< HEAD
         raise HTTPException(status_code=404, detail="Играчот не е пронајден")
     return player
 
@@ -312,7 +265,7 @@ def save_progress(progress_data: ProgressCreate, db: Session = Depends(get_db)):
     if already_played:
         raise HTTPException(status_code=400, detail="Ова сценарио веќе го имаш поминато!")
 
-    # 4. Ажурирање на поените на играчот (може да бидат плус или минус)
+    # 4. Ажурирање на поените на играчот
     player.score += action.points_modifier
     if player.score < 0:
         player.score = 0  # Поените не можат да одат под нула
@@ -333,12 +286,9 @@ def save_progress(progress_data: ProgressCreate, db: Session = Depends(get_db)):
         "animal_message": action.animal_message,
         "is_correct": action.is_correct
     }
-=======
-        raise HTTPException(status_code=404, detail="Player not found")
-    return player
 
 
-# --- ANSWERS ---
+# --- ОДГОВОРИ (ANSWERS) ---
 @app.post("/answers/")
 def create_answer(answer: AnswerCreate, db: Session = Depends(get_db)):
     db_answer = db.query(Answer).filter(Answer.name == answer.name).first()
@@ -360,21 +310,19 @@ def read_answer(answer_id: int, db: Session = Depends(get_db)):
     return answer
 
 
-# --- SIDE HUMANS ---
+# --- СПРЕДНИ ЛИКОВИ (SIDE HUMANS) ---
 @app.post("/side_humans/")
 def create_side_human(side_human: SideHumanCreate, db: Session = Depends(get_db)):
     db_side_human = db.query(SideHuman).filter(SideHuman.name == side_human.name).first()
     if db_side_human:
         raise HTTPException(status_code=400, detail="Side Human already created")
 
-    # 1. Ги наоѓаме вистинските Answer објекти во базата според испратените ID-иња
+    # Наоѓање на вистинските Answer објекти во базата
     db_answers = db.query(Answer).filter(Answer.id.in_(side_human.solutions)).all()
 
-    # Валидација: Дали сите пратени ID-иња навистина постојат во базата?
     if len(db_answers) != len(side_human.solutions):
         raise HTTPException(status_code=400, detail="One or more answer IDs do not exist in the database")
 
-    # 2. Го креираме SideHuman и му ги доделуваме пронајдените Answer објекти во релацијата
     new_side_human = SideHuman(name=side_human.name, solutions=db_answers)
 
     db.add(new_side_human)
@@ -389,4 +337,4 @@ def read_side_human(side_human_id: int, db: Session = Depends(get_db)):
     if side_human is None:
         raise HTTPException(status_code=404, detail="Side Human not found")
     return side_human
->>>>>>> b48dba0bbf5f065632aac61bf23cca760aee7cf0
+
