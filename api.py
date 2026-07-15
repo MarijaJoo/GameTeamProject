@@ -168,17 +168,17 @@ def get_db():
 # =====================================================================
 
 # Автоматски се извршува при секое палење или reload на API-то
-@app.on_event("startup")
-def auto_seed_on_startup():
-    db = SessionLocal()
-    try:
-        # Ја повикуваме веќе постоечката функција за седување
-        seed_database(db)
-        print("🌱 Базата е автоматски освежена со најновиот SQL фајл!")
-    except Exception as e:
-        print(f"Грешка при автоматско освежување на базата: {e}")
-    finally:
-        db.close()
+# @app.on_event("startup")
+# def auto_seed_on_startup():
+#     db = SessionLocal()
+#     try:
+#         # Ја повикуваме веќе постоечката функција за седување
+#         seed_database(db)
+#         print("🌱 Базата е автоматски освежена со најновиот SQL фајл!")
+#     except Exception as e:
+#         print(f"Грешка при автоматско освежување на базата: {e}")
+#     finally:
+#         db.close()
 
 # --- ПОЛНЕЊЕ НА БАЗАТА (SEED) ---
 @app.post("/seed/")
