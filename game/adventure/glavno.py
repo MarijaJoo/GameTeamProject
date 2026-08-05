@@ -51,7 +51,9 @@ from game.ui_folder.hud import (
 from game.ui_folder.scenario_panel import (
     ScenarioPanel,
 )
-
+from game.arcade.arcade_game import (
+    ArcadeGame,
+)
 
 class AdventureGame:
     def __init__(self):
@@ -99,6 +101,9 @@ class AdventureGame:
         self.final_decisions_answered = 0
 
         self.completed_scenario_ids = []
+        self.knowledge_modules = {}
+        self.knowledge_popup_message = ""
+        self.knowledge_popup_until = 0
 
         self.notice_message = ""
         self.notice_until = 0
@@ -132,6 +137,12 @@ class AdventureGame:
             WIDTH,
             HEIGHT,
             self.scenario_director.selected_scenarios,
+        )
+        self.arcade_game = ArcadeGame(
+            WIDTH,
+            HEIGHT,
+            self.title_font,
+            self.body_font,
         )
 
         spawn_x, spawn_y = (
@@ -241,6 +252,7 @@ class AdventureGame:
         if candidate.interaction_type in (
                 "location",
                 "ending",
+                "arcade_console",
         ):
             self.nearby_object = candidate
             return
@@ -254,8 +266,59 @@ class AdventureGame:
         ):
             self.nearby_object = candidate
 
+    def collect_knowledge_module(
+            self,
+            collectible,
+    ):
+        if not collectible.collect():
+            return
 
+        self.knowledge_modules[
+            collectible.name
+        ] = {
+            "name": collectible.name,
+            "description": (
+                collectible.description
+            ),
+        }
 
+        self.knowledge_popup_message = (
+            f"Knowledge collected: "
+            f"{collectible.name}"
+        )
+
+        self.knowledge_popup_until = (
+                pygame.time.get_ticks()
+                + 3000
+        )
+
+        print(
+            f"Collected knowledge module: "
+            f"{collectible.name}"
+        )
+
+        print(
+            collectible.description
+        )
+
+        if self.has_all_knowledge_modules():
+            self.show_notice(
+                "All four modules collected! "
+                "The game console is now unlocked.",
+                duration=4500,
+            )
+
+    def has_all_knowledge_modules(self):
+        return (
+                len(self.knowledge_modules)
+                >= 4
+        )
+
+    def get_knowledge_progress(self):
+        return (
+            len(self.knowledge_modules),
+            4,
+        )
 
 
     def _handle_menu_event(
@@ -432,6 +495,10 @@ class AdventureGame:
 
 
     def _update(self):
+        if self.game_state == "arcade":
+            self.arcade_game.update()
+            return
+
         if self.game_state != "exploring":
             return
 
@@ -439,10 +506,26 @@ class AdventureGame:
 
         self.player.handle_input(
             keys,
-            self.world
-            .current_location
-            .bounds,
+            self.world.current_location.bounds,
+            self.world.current_location.collision_rects,
         )
+        current_location = (
+            self.world.current_location
+        )
+
+        current_location.update_collectibles()
+
+        collectible = (
+            current_location
+            .get_colliding_collectible(
+                self.player.rect
+            )
+        )
+
+        if collectible is not None:
+            self.collect_knowledge_module(
+                collectible
+            )
 
     def _draw(self):
         self.renderer.draw(self)
@@ -501,6 +584,9 @@ class AdventureGame:
 
         self.notice_message = ""
         self.notice_until = 0
+        self.knowledge_modules = {}
+        self.knowledge_popup_message = ""
+        self.knowledge_popup_until = 0
 
         self.game_state = "exploring"
 

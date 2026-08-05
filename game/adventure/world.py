@@ -5,7 +5,17 @@ from game.adventure.interactable import (
 from game.adventure.location import (
     AdventureLocation,
 )
+from game.adventure.asset_loader import (
+    load_image,
+)
 
+from game.adventure.settings import (
+    DEBUG_UNLOCK_ALL_LOCATIONS,
+)
+
+from game.adventure.knowledge_collectible import (
+    KnowledgeCollectible,
+)
 
 SCENARIO_OBJECT_NAMES = {
     # Home phone
@@ -58,12 +68,38 @@ class AdventureWorld:
             scenario_assignments
         )
 
+        background_size = (
+            room_bounds[2],
+            room_bounds[3],
+        )
+
+        home_background = load_image(
+            "backgrounds/home.png",
+            size=background_size,
+        )
+
+        school_background = load_image(
+            "backgrounds/school.png",
+            size=background_size,
+        )
+
+        park_background = load_image(
+            "backgrounds/park.png",
+            size=background_size,
+        )
+
+        cafe_background = load_image(
+            "backgrounds/internet_cafe.png",
+            size=background_size,
+        )
+
         self.locations = {
             "home": AdventureLocation(
                 name="Home",
                 bounds=room_bounds,
-                player_spawn=(100, 520),
+                player_spawn=(470, 540),
                 background_color=(60, 68, 88),
+                background_image=home_background,
             ),
 
             "school": AdventureLocation(
@@ -71,6 +107,7 @@ class AdventureWorld:
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(65, 76, 90),
+                background_image=school_background,
             ),
 
             "park": AdventureLocation(
@@ -78,6 +115,7 @@ class AdventureWorld:
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(58, 86, 72),
+                background_image=park_background,
             ),
 
             "internet_cafe": AdventureLocation(
@@ -85,6 +123,7 @@ class AdventureWorld:
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(72, 62, 82),
+                background_image=cafe_background,
             ),
         }
 
@@ -203,6 +242,8 @@ class AdventureWorld:
         self,
         interactable,
     ):
+        if DEBUG_UNLOCK_ALL_LOCATIONS:
+            return True
         if (
             interactable.required_location_complete
             is not None
@@ -274,61 +315,84 @@ class AdventureWorld:
         )
 
         home.add_interactable(
-            Interactable(
-                220,
-                180,
-                110,
-                75,
-                name=self._object_name(
-                    phone_scenario,
-                    "Phone",
-                ),
+            Interactable(230,525,65,55,
+                name=self._object_name(phone_scenario,"Phone",),
                 scenario_id=phone_scenario,
-                color=(70, 150, 220),
+                show_placeholder=False,
             )
         )
 
         home.add_interactable(
-            Interactable(
-                650,
-                170,
-                130,
-                85,
-                name=self._object_name(
-                    computer_scenario,
-                    "Computer",
-                ),
+            Interactable(340,205,170,110,
+                name=self._object_name(computer_scenario,"Computer",),
                 scenario_id=computer_scenario,
-                color=(120, 95, 200),
+                show_placeholder=False,
             )
         )
 
         home.add_interactable(
-            Interactable(
-                835,
-                470,
-                80,
-                100,
+            Interactable(448,585,110,60,
                 name="Go to School",
                 interaction_type="location",
                 target_location="school",
                 required_location_complete="home",
-                color=(70, 170, 110),
+                show_placeholder=False,
+            )
+        )
+        home.add_interactable(
+            Interactable(
+                760,
+                370,
+                120,
+                100,
+                name="",
+                interaction_type="arcade_console",
+                show_placeholder=False,
             )
         )
 
         home.add_interactable(
-            Interactable(
-                430,
-                450,
-                130,
-                100,
+            Interactable(95,210,130,180,
                 name="End the Day",
                 interaction_type="ending",
                 requires_all_scenarios=True,
-                color=(170, 125, 75),
+                show_placeholder=False,
             )
         )
+        home.add_collectible(
+            KnowledgeCollectible(
+                x=860,
+                y=270,
+                name="Password Manager",
+                description=(
+                    "A password manager stores strong, unique "
+                    "passwords in an encrypted vault."
+                ),
+            )
+        )
+
+        # Top-left bed and nightstand area
+        home.add_collision(55,150,900,150,)
+        #bed
+        home.add_collision(55, 130, 165, 270, )
+
+        # Computer desk area
+        home.add_collision(320,150,265,155,)
+
+        # Left TV cabinet
+        home.add_collision(50,390,100,160, )
+
+        # Right sofa / cabinet area
+        home.add_collision(780,370,150,140, )
+        # bottom plant shelf
+        home.add_collision(190, 530, 90, 100, )
+        home.add_collision(30, 590, 900, 30, )
+
+        # Optional central rug furniture, if needed
+        # Leave the rug itself walkable.230,
+        #                 525,
+        #                 65,
+        #                 55,
 
     def _build_school(self):
         school = self.locations["school"]
@@ -342,61 +406,73 @@ class AdventureWorld:
         )
 
         school.add_interactable(
-            Interactable(
-                220,
-                180,
-                120,
-                75,
-                name=self._object_name(
-                    pc_scenario,
-                    "School PC",
-                ),
+            Interactable(730,300,70,75,
+                name=self._object_name(pc_scenario,"School PC",),
                 scenario_id=pc_scenario,
-                color=(80, 135, 195),
+                show_placeholder=False,
             )
         )
 
         school.add_interactable(
-            Interactable(
-                560,
-                180,
-                120,
-                75,
-                name=self._object_name(
-                    object_scenario,
-                    "School Object",
-                ),
+            Interactable(60,320,90,155,
+                name=self._object_name(object_scenario,"School Object",),
                 scenario_id=object_scenario,
-                color=(190, 125, 60),
+                show_placeholder=False,
             )
         )
 
         school.add_interactable(
-            Interactable(
-                60,
-                470,
-                80,
-                100,
+            Interactable(460,590,80,100,
                 name="Return Home",
                 interaction_type="location",
                 target_location="home",
-                color=(70, 170, 110),
+                show_placeholder=False,
             )
         )
 
         school.add_interactable(
-            Interactable(
-                835,
-                470,
-                80,
-                100,
+            Interactable(885,270,80,100,
                 name="Go to Park",
                 interaction_type="location",
                 target_location="park",
                 required_location_complete="school",
-                color=(85, 175, 105),
+                show_placeholder=False,
             )
         )
+
+        school.add_collectible(
+            KnowledgeCollectible(
+                x=325,
+                y=200,
+                name="Encrypted USB",
+                description=(
+                    "Encryption protects files by making them "
+                    "unreadable without the correct key."
+                ),
+            )
+        )
+
+        #computers
+        school.add_collision(250, 320, 50, 85, )
+        school.add_collision(350, 320, 50, 85, )
+        school.add_collision(450, 320, 50, 85, )
+        school.add_collision(550, 320, 50, 85, )
+        school.add_collision(650, 320, 50, 85, )
+        school.add_collision(750, 320, 50, 85, )
+
+        school.add_collision(700, 450, 50, 85, )
+        school.add_collision(300, 450, 50, 85, )
+        school.add_collision(400, 450, 50, 85, )
+        school.add_collision(500, 450, 50, 85, )
+        school.add_collision(600, 450, 50, 85, )
+
+        #wall
+        school.add_collision(55, 130, 900, 90, )
+
+        school.add_collision(250, 200, 100, 70, )
+        school.add_collision(50, 320, 50, 205, )
+
+
 
     def _build_park(self):
         park = self.locations["park"]
@@ -407,8 +483,8 @@ class AdventureWorld:
 
         park.add_interactable(
             Interactable(
-                430,
-                180,
+                190,
+                220,
                 130,
                 100,
                 name=self._object_name(
@@ -416,36 +492,60 @@ class AdventureWorld:
                     "Park Event",
                 ),
                 scenario_id=park_scenario,
-                color=(75, 145, 210),
+                show_placeholder=False,
             )
         )
 
         park.add_interactable(
             Interactable(
-                60,
-                470,
+                280,
+                580,
                 80,
-                100,
+                80,
                 name="Return to School",
                 interaction_type="location",
                 target_location="school",
-                color=(85, 175, 105),
+                show_placeholder=False,
             )
         )
 
         park.add_interactable(
             Interactable(
-                835,
-                470,
+                895,
+                150,
                 80,
                 100,
                 name="Go to Café",
                 interaction_type="location",
                 target_location="internet_cafe",
                 required_location_complete="park",
-                color=(155, 105, 175),
+                show_placeholder=False,
             )
         )
+        park.add_collectible(
+            KnowledgeCollectible(
+                x=780,
+                y=360,
+                name="Security Badge",
+                description=(
+                    "Security badges help control physical access "
+                    "to protected buildings and systems."
+                ),
+            )
+        )
+
+        #benches
+        park.add_collision(120, 150, 150, 40, )
+        park.add_collision(520, 130, 190, 40, )
+        park.add_collision(90, 250, 30, 70, )
+        park.add_collision(90, 430, 30, 70, )
+
+        #water
+        park.add_collision(800, 220, 190, 450, )
+        park.add_collision(480, 390, 150, 200, )
+        park.add_collision(550, 290, 250, 70, )
+        park.add_collision(690, 410, 200, 200, )
+
 
     def _build_internet_cafe(self):
         cafe = self.locations[
@@ -457,45 +557,36 @@ class AdventureWorld:
         )
 
         cafe.add_interactable(
-            Interactable(
-                430,
-                180,
-                130,
-                85,
-                name=self._object_name(
-                    cafe_scenario,
-                    "Café Event",
-                ),
+            Interactable(730,460,130,85,
+                name=self._object_name(cafe_scenario,"Café Event",),
                 scenario_id=cafe_scenario,
-                color=(80, 145, 200),
+                show_placeholder=False,
             )
         )
 
         cafe.add_interactable(
-            Interactable(
-                60,
-                470,
-                80,
-                100,
-                name="Return to Park",
-                interaction_type="location",
-                target_location="park",
-                color=(85, 175, 105),
-            )
-        )
-
-        cafe.add_interactable(
-            Interactable(
-                835,
-                470,
-                80,
-                100,
+            Interactable(455,580,120,40,
                 name="Return Home",
                 interaction_type="location",
                 target_location="home",
-                required_location_complete=(
-                    "internet_cafe"
-                ),
-                color=(70, 170, 110),
+                required_location_complete=("internet_cafe"),
+                show_placeholder=False,
             )
         )
+        cafe.add_collectible(
+            KnowledgeCollectible(
+                x=70,
+                y=195,
+                name="VPN Token",
+                description=(
+                    "A VPN encrypts network traffic between your "
+                    "device and the VPN service."
+                ),
+            )
+        )
+
+        cafe.add_collision(60, 270, 350, 70, )
+        cafe.add_collision(560, 280, 310, 100, )
+        cafe.add_collision(580, 460, 390, 60, )
+        cafe.add_collision(60, 120, 910, 100, )
+        cafe.add_collision(60, 600, 910, 70, )

@@ -38,6 +38,14 @@ class GameRenderer:
             pygame.display.flip()
             return
 
+        if game.game_state == "arcade":
+            game.arcade_game.draw(
+                game.screen
+            )
+
+            pygame.display.flip()
+            return
+
         game.screen.fill(
             BACKGROUND_COLOR
         )
@@ -57,6 +65,15 @@ class GameRenderer:
             game.total_score,
             game.api.online,
             game.world.current_location.name,
+        )
+        collected, required = (
+            game.get_knowledge_progress()
+        )
+
+        game.hud.draw_knowledge_progress(
+            game.screen,
+            collected,
+            required,
         )
 
         if (
@@ -135,3 +152,4 @@ class GameRenderer:
                 game.screen,
                 game._build_final_report(),
             )
+

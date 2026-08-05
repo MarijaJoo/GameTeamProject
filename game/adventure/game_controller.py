@@ -37,6 +37,7 @@ class GameController:
                 "menu",
                 "how_to_play",
                 "complete",
+                "arcade",
             )
         ):
             self.game.running = False
@@ -51,6 +52,7 @@ class GameController:
             "scenario": self._handle_scenario_event,
             "feedback": self._handle_feedback_event,
             "complete": self._handle_complete_event,
+            "arcade": self._handle_arcade_event,
         }
 
         handler = handlers.get(state)
@@ -205,10 +207,54 @@ class GameController:
         ):
             game.game_state = "complete"
             return
+        if (
+                interactable.interaction_type
+                == "arcade_console"
+        ):
+            collected, required = (
+                game.get_knowledge_progress()
+            )
+
+            if not game.has_all_knowledge_modules():
+                game.show_notice(
+                    (
+                        "The console is locked. "
+                        f"Knowledge Modules: "
+                        f"{collected} / {required}"
+                    ),
+                    duration=3000,
+                )
+                return
+
+            game.arcade_game.start()
+            game.game_state = "arcade"
+            return
 
         self._start_scenario(
             interactable
         )
+
+    def _handle_arcade_event(
+            self,
+            event,
+    ):
+        game = self.game
+
+        should_close = (
+            game.arcade_game.handle_event(
+                event
+            )
+        )
+
+        if should_close:
+            game.game_state = "exploring"
+
+            game.world.change_location(
+                "home",
+                game.player,
+            )
+
+            game.nearby_object = None
 
     def _start_scenario(
         self,

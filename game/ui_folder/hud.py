@@ -150,3 +150,24 @@ class AdventureHUD:
             prompt,
             prompt_rect,
         )
+
+    def draw_knowledge_progress(
+            self,
+            screen,
+            collected,
+            required,
+    ):
+        progress_text = self.body_font.render(
+            (
+                f"Knowledge Modules: "
+                f"{collected} / {required}"
+            ),
+            True,
+            (245, 220, 120),
+        )
+
+        progress_rect = progress_text.get_rect(
+            topright = (WIDTH - 25,70,)
+        )
+
+        screen.blit(progress_text,progress_rect,)

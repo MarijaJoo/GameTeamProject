@@ -1,6 +1,6 @@
 import pygame
 
-
+DEBUG_COLLISIONS = True
 class Interactable:
     def __init__(
         self,
@@ -16,6 +16,7 @@ class Interactable:
         target_location=None,
         required_location_complete=None,
         requires_all_scenarios=False,
+        show_placeholder=True,
     ):
         self.rect = pygame.Rect(
             x,
@@ -24,6 +25,7 @@ class Interactable:
             height,
         )
 
+        self.show_placeholder = show_placeholder
         self.name = name
         self.scenario_id = scenario_id
 
@@ -75,7 +77,9 @@ class Interactable:
                 self.rect,
             )
 
-        else:
+
+        elif self.show_placeholder:
+
             draw_color = self.color
 
             if self.completed:
@@ -116,4 +120,12 @@ class Interactable:
             screen.blit(
                 label,
                 label_rect,
+            )
+
+        if DEBUG_COLLISIONS:
+            pygame.draw.rect(
+                screen,
+                (255, 0, 0),
+                self.rect,
+                2,
             )
