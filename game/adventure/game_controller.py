@@ -207,6 +207,7 @@ class GameController:
         ):
             game.game_state = "complete"
             return
+
         if (
                 interactable.interaction_type
                 == "arcade_console"
@@ -215,18 +216,24 @@ class GameController:
                 game.get_knowledge_progress()
             )
 
-            if not game.has_all_knowledge_modules():
+            if not game.has_unlocked_arcade():
                 game.show_notice(
                     (
                         "The console is locked. "
-                        f"Knowledge Modules: "
-                        f"{collected} / {required}"
+                        "Find a Knowledge Module first."
                     ),
                     duration=3000,
                 )
                 return
 
-            game.arcade_game.start()
+            unlocked_levels = (
+                game.get_unlocked_arcade_levels()
+            )
+
+            game.arcade_game.open_level_select(
+                unlocked_levels
+            )
+
             game.game_state = "arcade"
             return
 

@@ -1,6 +1,6 @@
 import pygame
 
-DEBUG_COLLISIONS = True
+DEBUG_COLLISIONS = False
 class Interactable:
     def __init__(
         self,

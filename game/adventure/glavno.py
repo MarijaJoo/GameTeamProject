@@ -301,25 +301,48 @@ class AdventureGame:
             collectible.description
         )
 
-        if self.has_all_knowledge_modules():
+        collected = self.get_knowledge_count()
+
+        if collected == 1:
             self.show_notice(
-                "All four modules collected! "
-                "The game console is now unlocked.",
+                "Game console unlocked! "
+                "Security Defender Level 1 is now available.",
                 duration=4500,
             )
 
-    def has_all_knowledge_modules(self):
+        elif collected <= 4:
+            self.show_notice(
+                (
+                    f"Security Defender Level "
+                    f"{collected} unlocked!"
+                ),
+                duration=4000,
+            )
+
+    def get_knowledge_count(self):
+        return len(
+            self.knowledge_modules
+        )
+
+    def has_unlocked_arcade(self):
         return (
-                len(self.knowledge_modules)
-                >= 4
+                self.get_knowledge_count()
+                >= 1
+        )
+
+    def get_unlocked_arcade_levels(self):
+        # One adventure collectible unlocks
+        # one arcade level.
+        return min(
+            self.get_knowledge_count(),
+            4,
         )
 
     def get_knowledge_progress(self):
         return (
-            len(self.knowledge_modules),
+            self.get_knowledge_count(),
             4,
         )
-
 
     def _handle_menu_event(
             self,
@@ -457,10 +480,6 @@ class AdventureGame:
         )
 
         self.current_object.completed = True
-
-
-
-
 
     def _all_scenarios_completed(self):
         scenario_objects = (

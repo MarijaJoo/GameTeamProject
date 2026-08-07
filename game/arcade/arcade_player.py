@@ -26,7 +26,6 @@ class ArcadePlayer:
         )
 
         self.speed = PLAYER_SPEED
-
         self.direction = "right"
 
     def reset(
@@ -49,32 +48,39 @@ class ArcadePlayer:
         move_x = 0
         move_y = 0
 
-        if keys[pygame.K_a] or keys[
-            pygame.K_LEFT
-        ]:
+        if (
+            keys[pygame.K_a]
+            or keys[pygame.K_LEFT]
+        ):
             move_x = -self.speed
             self.direction = "left"
 
-        elif keys[pygame.K_d] or keys[
-            pygame.K_RIGHT
-        ]:
+        elif (
+            keys[pygame.K_d]
+            or keys[pygame.K_RIGHT]
+        ):
             move_x = self.speed
             self.direction = "right"
 
-        if keys[pygame.K_w] or keys[
-            pygame.K_UP
-        ]:
+        if (
+            keys[pygame.K_w]
+            or keys[pygame.K_UP]
+        ):
             move_y = -self.speed
             self.direction = "up"
 
-        elif keys[pygame.K_s] or keys[
-            pygame.K_DOWN
-        ]:
+        elif (
+            keys[pygame.K_s]
+            or keys[pygame.K_DOWN]
+        ):
             move_y = self.speed
             self.direction = "down"
 
         # Prevent diagonal movement.
-        if move_x != 0 and move_y != 0:
+        if (
+            move_x != 0
+            and move_y != 0
+        ):
             move_y = 0
 
         self._move_horizontal(
