@@ -1,7 +1,17 @@
 import pygame
 
+from game.adventure.asset_loader import SoundManager
 from game.adventure.scenario_engine import ScenarioEngine
 from game.adventure.scenarios import SCENARIO_SCRIPTS
+
+LOCATION_MUSIC = {
+    "home": ("home.mp3", 0.20),
+    "school": ("school.mp3", 0.10),
+    "cafe": ("cafe.mp3", 0.10),
+    "internet_cafe": ("cafe.mp3", 0.10),
+    "internet cafe": ("cafe.mp3", 0.10),
+    "park": ("park.mp3", 0.20),
+}
 
 
 class GameController:
@@ -14,6 +24,7 @@ class GameController:
 
     def __init__(self, game):
         self.game = game
+        self.sound_manager = SoundManager()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -138,6 +149,7 @@ class GameController:
 
         if selected_option == "Start New Day":
             game.start_new_day()
+            self._update_bgm_for_location("home")
 
         elif selected_option == "How to Play":
             game.game_state = "how_to_play"
@@ -193,11 +205,12 @@ class GameController:
             interactable.interaction_type
             == "location"
         ):
+            target_loc = interactable.target_location
             game.world.change_location(
                 interactable.target_location,
                 game.player,
             )
-
+            self._update_bgm_for_location(target_loc)
             game.nearby_object = None
             return
 
@@ -260,7 +273,7 @@ class GameController:
                 "home",
                 game.player,
             )
-
+            self._update_bgm_for_location("home")
             game.nearby_object = None
 
     def _start_scenario(
@@ -335,6 +348,12 @@ class GameController:
             selected_index
         ]
 
+        # sfx trigger
+        if selected_action.get("is_correct", False):
+            self.sound_manager.play_sfx("correct")
+        else:
+            self.sound_manager.play_sfx("wrong")
+
         game.submit_action(
             selected_action
         )
@@ -373,16 +392,17 @@ class GameController:
             return
 
         if step_type == "clue":
-            selected_index = (
-                self._get_answer_index(
-                    event
-                )
-            )
+            selected_index = self._get_answer_index(event)
 
             if selected_index is not None:
-                engine.answer_clue(
-                    selected_index
-                )
+                before_correct = engine.clues_correct
+
+                engine.answer_clue(selected_index)
+
+                if engine.clues_correct > before_correct:
+                    self.sound_manager.play_sfx("correct")
+                else:
+                    self.sound_manager.play_sfx("wrong")
 
             return
 
@@ -445,6 +465,12 @@ class GameController:
             engine,
             selected_action,
         )
+
+        # wrong/correct
+        if selected_action.get("is_correct", False):
+            self.sound_manager.play_sfx("correct")
+        else:
+            self.sound_manager.play_sfx("wrong")
 
         game.submit_action(
             selected_action
@@ -541,6 +567,13 @@ class GameController:
             game.completed_scenario_ids.append(
                 scenario_id
             )
+
+
+    def _update_bgm_for_location(self, location_name):
+        location_data = LOCATION_MUSIC.get(location_name)
+        if location_data:
+            music_file, volume = location_data
+            self.sound_manager.play_music(music_file, volume=volume)
 
     # =========================================================
     # FEEDBACK
