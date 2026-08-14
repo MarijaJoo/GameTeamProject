@@ -187,8 +187,8 @@ def seed_database(db: Session = Depends(get_db)):
     Го чита seed_data.sql фајлот и ја полни базата со почетни прашања и одговори.
     """
     # Спречуваме дуплирање на податоци
-    if db.query(Scenario).first() is not None:
-        return {"message": "Базата веќе содржи податоци. Нема потреба од седување."}
+    # if db.query(Scenario).first() is not None:
+    #     return {"message": "Базата веќе содржи податоци. Нема потреба од седување."}
 
     seed_file_path = os.path.join(os.path.dirname(__file__), "seed_data.sql")
 

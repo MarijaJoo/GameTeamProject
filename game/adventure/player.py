@@ -122,19 +122,19 @@ class AdventurePlayer:
         move_x = 0
         move_y = 0
 
-        if keys[pygame.K_a]:
+        # Horizontal movement: A or Left Arrow / D or Right Arrow
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             move_x -= self.speed
             self.direction = "left"
-
-        elif keys[pygame.K_d]:
+        elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             move_x += self.speed
             self.direction = "right"
 
-        if keys[pygame.K_w]:
+        # Vertical movement: W or Up Arrow / S or Down Arrow
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
             move_y -= self.speed
             self.direction = "up"
-
-        elif keys[pygame.K_s]:
+        elif keys[pygame.K_s] or keys[pygame.K_DOWN]:
             move_y += self.speed
             self.direction = "down"
 
