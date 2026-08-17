@@ -25,6 +25,7 @@ class GameAPIClient:
 
         self.offline_score = 0
         self.offline_completed_scenarios = set()
+        self.offline_arcade_best_scores = {}
 
     def connect(self):
         if self.mode == "offline":
@@ -149,6 +150,70 @@ class GameAPIClient:
                 scenario_id,
                 action_id,
             )
+
+    def submit_arcade_score(
+            self,
+            player_id,
+            level_number,
+            score,
+    ):
+        if not self.online:
+            old_best = (
+                self.offline_arcade_best_scores.get(
+                    level_number,
+                    0,
+                )
+            )
+
+            points_added = max(
+                0,
+                score - old_best,
+            )
+
+            if score > old_best:
+                self.offline_arcade_best_scores[
+                    level_number
+                ] = score
+
+            self.offline_score += points_added
+
+            return {
+                "status": "offline_success",
+                "level_number": level_number,
+                "submitted_score": score,
+                "best_score": max(
+                    old_best,
+                    score,
+                ),
+                "points_added": points_added,
+                "new_score": self.offline_score,
+                "offline": True,
+            }
+
+        try:
+            response = requests.post(
+                (
+                    f"{self.base_url}/players/"
+                    f"{player_id}/arcade-score/"
+                ),
+                json={
+                    "level_number": level_number,
+                    "score": score,
+                },
+                timeout=3,
+            )
+
+            response.raise_for_status()
+
+            return response.json()
+
+        except requests.RequestException as error:
+            print(
+                "Could not submit arcade score:",
+                error,
+            )
+
+            return None
 
     def _submit_offline_answer(
         self,

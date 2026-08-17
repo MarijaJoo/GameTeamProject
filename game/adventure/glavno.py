@@ -512,10 +512,67 @@ class AdventureGame:
             )
         ]
 
+    def submit_arcade_result(
+            self,
+            level_number,
+            arcade_score,
+    ):
+        result = self.api.submit_arcade_score(
+            self.player_id,
+            level_number,
+            arcade_score,
+        )
+
+        if result is None:
+            print(
+                "Arcade score could not be saved."
+            )
+            return
+
+        points_added = result.get(
+            "points_added",
+            0,
+        )
+
+        self.score = result.get(
+            "new_score",
+            self.score,
+        )
+
+        print(
+            f"Arcade Level {level_number}: "
+            f"{arcade_score} points"
+        )
+
+        print(
+            f"Added to adventure score: "
+            f"+{points_added}"
+        )
+
+        print(
+            f"New total score: "
+            f"{self.score}"
+        )
 
     def _update(self):
         if self.game_state == "arcade":
             self.arcade_game.update()
+
+            completed_result = (
+                self.arcade_game
+                .take_completed_result()
+            )
+
+            if completed_result is not None:
+                self.submit_arcade_result(
+                    completed_result[
+                        "level_number"
+                    ],
+                    completed_result[
+                        "score"
+                    ],
+                )
+
             return
 
         if self.game_state != "exploring":

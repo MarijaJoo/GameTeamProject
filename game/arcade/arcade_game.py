@@ -43,6 +43,7 @@ class ArcadeGame:
         self.current_level = 1
         self.active_knowledge_dot = None
         self.previous_state = None
+        self.completed_result = None
         self.software_update_duration = 10000
         self.software_update_until = 0
 
@@ -140,6 +141,7 @@ class ArcadeGame:
         self.score = 0
         self.active_knowledge_dot = None
         self.previous_state = None
+        self.completed_result = None
 
         self._calculate_map_offset()
 
@@ -152,6 +154,7 @@ class ArcadeGame:
         self.score = 0
         self.lives = 3
         self.software_update_until = 0
+        self.completed_result = None
 
         self.last_hit_time = (
             -self.hit_cooldown
@@ -347,6 +350,11 @@ class ArcadeGame:
                 self.arcade_map
                         .all_collectibles_collected()
         ):
+            self.completed_result = {
+                "level_number": self.current_level,
+                "score": self.score,
+            }
+
             self.state = "victory"
 
     def _check_enemy_collisions(self):
@@ -389,6 +397,12 @@ class ArcadeGame:
 
             self._respawn_after_hit()
             return
+
+    def take_completed_result(self):
+        result = self.completed_result
+        self.completed_result = None
+
+        return result
 
     def update(self):
         if (
