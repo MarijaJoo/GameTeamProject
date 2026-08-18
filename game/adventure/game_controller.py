@@ -220,6 +220,16 @@ class GameController:
         should_close = game.arcade_game.handle_event(event)
 
         if should_close:
+            completed_result = (
+                game.arcade_game.take_completed_result()
+            )
+
+            if completed_result is not None:
+                game.submit_arcade_result(
+                    completed_result["level_number"],
+                    completed_result["score"],
+                )
+
             game.game_state = "exploring"
             game.world.change_location("home", game.player)
             self._update_bgm_for_location("home")

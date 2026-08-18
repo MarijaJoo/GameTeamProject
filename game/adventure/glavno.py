@@ -575,8 +575,8 @@ class AdventureGame:
                     ],
                 )
 
-            # if not self.arcade_game.active:
-            #     return
+            if not self.arcade_game.active:
+                return
 
             return
 
