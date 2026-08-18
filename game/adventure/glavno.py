@@ -559,11 +559,13 @@ class AdventureGame:
             self.arcade_game.update()
 
             completed_result = (
-                self.arcade_game
-                .take_completed_result()
+                self.arcade_game.take_completed_result()
             )
-
             if completed_result is not None:
+                print(
+                    "ARCADE RESULT:",
+                    completed_result,
+                )
                 self.submit_arcade_result(
                     completed_result[
                         "level_number"
@@ -572,6 +574,9 @@ class AdventureGame:
                         "score"
                     ],
                 )
+
+            # if not self.arcade_game.active:
+            #     return
 
             return
 

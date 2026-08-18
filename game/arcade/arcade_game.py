@@ -217,6 +217,11 @@ class ArcadeGame:
             return False
 
         if event.key == pygame.K_ESCAPE:
+            #if self.state == "playing":
+            self.completed_result = {
+                    "level_number": self.current_level,
+                    "score": self.score,
+                }
             self.close()
             return True
 
