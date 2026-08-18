@@ -3,7 +3,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DateTime, text, Table
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, DateTime, text, Table,UniqueConstraint
 from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
 
 # =====================================================================
@@ -77,6 +77,39 @@ class PlayerProgress(Base):
     scenario = relationship("Scenario")
     action = relationship("Action")
 
+class ArcadeScore(Base):
+    __tablename__ = "arcade_scores"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    player_id = Column(
+        Integer,
+        ForeignKey("players.id"),
+        nullable=False,
+    )
+
+    level_number = Column(
+        Integer,
+        nullable=False,
+    )
+
+    best_score = Column(
+        Integer,
+        nullable=False,
+        default=0,
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "player_id",
+            "level_number",
+            name="uq_player_arcade_level",
+        ),
+    )
 
 class SideHuman(Base):
     __tablename__ = "side_humans"
@@ -136,6 +169,9 @@ class ProgressCreate(BaseModel):
     scenario_id: int
     action_id: int
 
+class ArcadeScoreCreate(BaseModel):
+    level_number: int
+    score: int
 
 class SideHumanCreate(BaseModel):
     name: str
@@ -187,8 +223,8 @@ def seed_database(db: Session = Depends(get_db)):
     Го чита seed_data.sql фајлот и ја полни базата со почетни прашања и одговори.
     """
     # Спречуваме дуплирање на податоци
-    if db.query(Scenario).first() is not None:
-        return {"message": "Базата веќе содржи податоци. Нема потреба од седување."}
+    # if db.query(Scenario).first() is not None:
+    #     return {"message": "Базата веќе содржи податоци. Нема потреба од седување."}
 
     seed_file_path = os.path.join(os.path.dirname(__file__), "seed_data.sql")
 
@@ -227,6 +263,110 @@ def read_player(player_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Играчот не е пронајден")
     return player
 
+@app.post(
+    "/players/{player_id}/arcade-score/"
+)
+def submit_arcade_score(
+    player_id: int,
+    score_data: ArcadeScoreCreate,
+    db: Session = Depends(get_db),
+):
+    player = (
+        db.query(Player)
+        .filter(
+            Player.id == player_id
+        )
+        .first()
+    )
+
+    if player is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Играчот не е пронајден",
+        )
+
+    if not (
+        1
+        <= score_data.level_number
+        <= 4
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Невалидно ниво",
+        )
+
+    if score_data.score < 0:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Резултатот не може "
+                "да биде негативен"
+            ),
+        )
+
+    arcade_score = (
+        db.query(ArcadeScore)
+        .filter(
+            ArcadeScore.player_id
+            == player_id,
+            ArcadeScore.level_number
+            == score_data.level_number,
+        )
+        .first()
+    )
+
+    if arcade_score is None:
+        arcade_score = ArcadeScore(
+            player_id=player_id,
+            level_number=(
+                score_data.level_number
+            ),
+            best_score=score_data.score,
+        )
+
+        db.add(arcade_score)
+
+        points_added = (
+            score_data.score
+        )
+
+    elif (
+        score_data.score
+        > arcade_score.best_score
+    ):
+        points_added = (
+            score_data.score
+            - arcade_score.best_score
+        )
+
+        arcade_score.best_score = (
+            score_data.score
+        )
+
+    else:
+        points_added = 0
+
+    player.score += points_added
+
+    db.commit()
+
+    db.refresh(player)
+    db.refresh(arcade_score)
+
+    return {
+        "status": "success",
+        "level_number": (
+            score_data.level_number
+        ),
+        "submitted_score": (
+            score_data.score
+        ),
+        "best_score": (
+            arcade_score.best_score
+        ),
+        "points_added": points_added,
+        "new_score": player.score,
+    }
 
 # --- СЦЕНАРИЈА И АКЦИИ (SCENARIOS & ACTIONS) ---
 @app.get("/scenarios/", response_model=list[ScenarioResponse])

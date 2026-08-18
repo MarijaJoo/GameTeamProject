@@ -57,8 +57,8 @@ title_font = pygame.font.SysFont('arial', 28, bold=True)
 
 # Вчитување на звуци (Опционално: стави correct.wav и wrong.wav во assets)
 try:
-    sound_correct = pygame.mixer.Sound("assets/correct.wav")
-    sound_wrong = pygame.mixer.Sound("assets/wrong.wav")
+    sound_correct = pygame.mixer.Sound("assets/audio/sfx/correct.wav")
+    sound_wrong = pygame.mixer.Sound("assets/audio/sfx/wrong.wav")
 except:
     sound_correct = None
     sound_wrong = None
@@ -89,7 +89,7 @@ raw_animal_img = pygame.image.load("assets/animal.png").convert_alpha()
 animal_img = remove_white_background(raw_animal_img, tolerance=240)
 animal_img = pygame.transform.scale(animal_img, (100, 100))  # Малку поголемо животинче
 
-street_img = pygame.image.load("assets/street.jpg").convert()
+street_img = pygame.image.load("assets/street.png").convert()
 street_img = pygame.transform.scale(street_img, (WIDTH, HEIGHT))
 
 # Глобални променливи
