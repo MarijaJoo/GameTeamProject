@@ -11,9 +11,9 @@ from game.adventure.settings import (
 
 class MenuPanel:
     OPTIONS = [
-        "Start New Day",
-        "How to Play",
-        "Quit",
+        "Почни нов ден",
+        "Како се игра",
+        "Искочи",
     ]
 
     def __init__(
@@ -67,7 +67,7 @@ class MenuPanel:
         )
 
         subtitle = self.body_font.render(
-            "Can you make it through one day safely?",
+            "Дали можеш безбедно да го поминеш денот?",
             True,
             SUBTEXT_COLOR,
         )
@@ -85,13 +85,13 @@ class MenuPanel:
         )
 
         player_text = self.body_font.render(
-            f"Player: {username}",
+            f"Играч: {username}",
             True,
             TEXT_COLOR,
         )
 
         score_text = self.body_font.render(
-            f"Account score: {account_score}",
+            f"Поени на профилот: {account_score}",
             True,
             TEXT_COLOR,
         )
@@ -170,7 +170,7 @@ class MenuPanel:
             )
 
         instruction = self.body_font.render(
-            "Use W/S or arrow keys, then press ENTER",
+            "Користи W/S или стрелките на тастатурата, потоа притисни ENTER",
             True,
             SUBTEXT_COLOR,
         )
@@ -221,13 +221,12 @@ class HowToPlayPanel:
         )
 
         instructions = [
-            "Move with W, A, S and D.",
-            "Press E when you are near an object or exit.",
-            "Press SPACE to continue conversations and feedback.",
-            "Press 1 or 2 to answer investigation questions.",
-            "Investigate each situation before making the final decision.",
-            "Complete the events in each location to unlock the next area.",
-            "After the final event, return Home and end the day.",
+            "Движи се со W, A, S и D.",
+            "Притисни E кога си блиску до некој објект или до излез.",
+            "Притисни SPACE за да се покаже следниот текст.",
+            "Притисни 1 или 2 (или со глувчето) да одговориш на прашањата.",
+            "Размисли убаво пред да го заклучиш одговорот.",
+            "За да го завршиш денот врати се дома.",
         ]
 
         y = 175
@@ -251,7 +250,7 @@ class HowToPlayPanel:
             y += 55
 
         back_text = self.body_font.render(
-            "Press ESCAPE or BACKSPACE to return",
+            "Притисни ESCAPE или BACKSPACE за да се вратиш назад",
             True,
             SUBTEXT_COLOR,
         )
