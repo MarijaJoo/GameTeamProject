@@ -99,7 +99,7 @@ class StoryPanel:
         )
 
         instruction = self.body_font.render(
-            "Press SPACE to continue",
+            "Притисни SPACE за да продолжиш",
             True,
             SUBTEXT_COLOR,
         )
@@ -115,7 +115,7 @@ class StoryPanel:
 
         heading = self.title_font.render(
             (
-                f"CLUE {engine.clues_answered + 1}"
+                f"Помош {engine.clues_answered + 1}"
             ),
             True,
             POPUP_BORDER,
@@ -174,7 +174,7 @@ class StoryPanel:
             y += 88
 
         instruction = self.body_font.render(
-            "Press 1 or 2 to inspect the clue",
+            "Притисни 1 или 2 за да провериш",
             True,
             SUBTEXT_COLOR,
         )
@@ -221,7 +221,7 @@ class StoryPanel:
         )
 
         instruction = self.body_font.render(
-            "Press SPACE to continue",
+            "Притисни SPACE за да продолжиш",
             True,
             SUBTEXT_COLOR,
         )
@@ -236,7 +236,7 @@ class StoryPanel:
         panel = self._create_panel(screen)
 
         heading = self.title_font.render(
-            "FINAL DECISION",
+            "КРАЈНА ОДЛУКА",
             True,
             POPUP_BORDER,
         )
@@ -300,7 +300,7 @@ class StoryPanel:
             y += 88
 
         instruction = self.body_font.render(
-            "Press 1 or 2 to make your final decision",
+            "Притисни 1 или 2 за да го селектираш одговорот",
             True,
             SUBTEXT_COLOR,
         )
