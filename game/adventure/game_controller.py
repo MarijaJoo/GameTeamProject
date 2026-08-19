@@ -15,9 +15,6 @@ LOCATION_MUSIC = {
 
 
 class GameController:
-    """
-    Handles keyboard & mouse events and game-state transitions.
-    """
 
     def __init__(self, game):
         self.game = game
@@ -35,8 +32,6 @@ class GameController:
 
     def _route_event(self, event):
         state = self.game.game_state
-
-        # Handle Escape globally (except on specific UI screens)
         if (
             event.type == pygame.KEYDOWN
             and event.key == pygame.K_ESCAPE
@@ -68,9 +63,6 @@ class GameController:
         if handler is not None:
             handler(event)
 
-    # =========================================================
-    # USERNAME (Keyboard + Mouse Click)
-    # =========================================================
 
     def _handle_username_event(self, event):
         game = self.game
@@ -105,10 +97,6 @@ class GameController:
         game.score = game.player_data.get("score", 0)
         game.starting_score = game.score
         game.game_state = "menu"
-
-    # =========================================================
-    # MAIN MENU (Keyboard + Mouse Click)
-    # =========================================================
 
     def _handle_menu_event(self, event):
         game = self.game
@@ -151,10 +139,6 @@ class GameController:
         elif option_text == "Quit":
             game.running = False
 
-    # =========================================================
-    # HOW TO PLAY (Keyboard + Mouse Click)
-    # =========================================================
-
     def _handle_how_to_play_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key in (
@@ -168,9 +152,6 @@ class GameController:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.game.game_state = "menu"
 
-    # =========================================================
-    # EXPLORING (E / Space / Enter / Mouse Click)
-    # =========================================================
 
     def _handle_exploring_event(self, event):
         game = self.game
