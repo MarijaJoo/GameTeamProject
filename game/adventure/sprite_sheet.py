@@ -6,9 +6,7 @@ def slice_sprite_sheet(
     frame_width,
     frame_height,
 ):
-    """
-    Cuts a horizontal sprite sheet into equally sized frames.
-    """
+
 
     frames = []
 
