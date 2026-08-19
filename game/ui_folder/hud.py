@@ -28,21 +28,21 @@ class AdventureHUD:
         location_name,
     ):
         username_text = self.hud_font.render(
-            f"Player: {username}",
+            f"Играч: {username}",
             True,
             TEXT_COLOR,
         )
 
         score_text = self.hud_font.render(
-            f"Score: {score}",
+            f"Поени: {score}",
             True,
             TEXT_COLOR,
         )
 
         connection_mode = (
-            "ONLINE"
+            "Онлајн"
             if is_online
-            else "OFFLINE"
+            else "Офлајн"
         )
 
         mode_color = (
@@ -52,7 +52,7 @@ class AdventureHUD:
         )
 
         mode_text = self.body_font.render(
-            f"Mode: {connection_mode}",
+            f"Поврзаност: {connection_mode}",
             True,
             mode_color,
         )
@@ -111,18 +111,18 @@ class AdventureHUD:
 
         if interactable.interaction_type == "location":
             prompt_text = (
-                f"Press E to use "
+                f"Притисни E за да употребиш "
                 f"{interactable.name}"
             )
 
         elif interactable.interaction_type == "ending":
             prompt_text = (
-                "Press E to end the day"
+                "Притисни E за да го завршиш денот"
             )
 
         else:
             prompt_text = (
-                f"Press E to inspect "
+                f"Притисни E да погледнеш "
                 f"{interactable.name}"
             )
 
@@ -159,7 +159,7 @@ class AdventureHUD:
     ):
         progress_text = self.body_font.render(
             (
-                f"Knowledge Modules: "
+                f"Модули за знаење: "
                 f"{collected} / {required}"
             ),
             True,
