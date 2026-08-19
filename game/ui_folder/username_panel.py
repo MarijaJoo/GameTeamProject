@@ -38,7 +38,7 @@ class UsernamePanel:
 
             if not cleaned_username:
                 self.error_message = (
-                    "Please enter a username."
+                    "Внесете го вашето корисничко име"
                 )
                 return None
 
@@ -80,7 +80,7 @@ class UsernamePanel:
         )
 
         prompt = self.body_font.render(
-            "Enter your username",
+            "Внесете го вашето корисничко име",
             True,
             SUBTEXT_COLOR,
         )
@@ -190,7 +190,7 @@ class UsernamePanel:
             )
 
         instruction = self.body_font.render(
-            "Press ENTER to continue",
+            "Притисни ENTER за да продолжиш",
             True,
             SUBTEXT_COLOR,
         )
