@@ -9,12 +9,6 @@ def load_image(
         relative_path,
         size=None,
 ):
-    """
-    Loads a transparent image from the assets directory.
-
-    Returns None when the file is missing or cannot be loaded.
-    This allows the game to continue using placeholder graphics.
-    """
     image_path = (
             ASSETS_DIRECTORY
             / relative_path
@@ -53,11 +47,6 @@ def load_animation(
         filenames,
         size=None,
 ):
-    """
-    Loads several animation frames.
-
-    Missing frames are skipped.
-    """
     frames = []
 
     for filename in filenames:
@@ -98,10 +87,6 @@ def load_sprite_sheet(
         )
         return None
 
-
-# ==========================================
-# AUDIO / SOUND MANAGER
-# ==========================================
 class SoundManager:
     def __init__(self):
         if not pygame.mixer.get_init():
