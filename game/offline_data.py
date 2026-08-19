@@ -6,24 +6,6 @@ def build_scored_actions(
     wrong_messages,
     correct_messages,
 ):
-    """
-    Creates ten internal scoring actions:
-
-    - Five variants for the unsafe final decision.
-    - Five variants for the safe final decision.
-
-    The selected variant depends on how many clue questions
-    the player answered correctly.
-
-    Clue scores:
-        0, 5, 10, 15, 20
-
-    Unsafe final decision:
-        clue score - 5
-
-    Safe final decision:
-        clue score + 10
-    """
 
     clue_points = [0, 5, 10, 15, 20]
     actions = []
