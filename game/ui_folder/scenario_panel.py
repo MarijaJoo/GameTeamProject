@@ -145,7 +145,7 @@ class ScenarioPanel:
             y += 85
 
         instruction = self.body_font.render(
-            "Press 1 or 2 to choose",
+            "Притисни 1 или 2 за да избереш",
             True,
             SUBTEXT_COLOR,
         )
