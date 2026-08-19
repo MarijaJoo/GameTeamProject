@@ -2,12 +2,6 @@ import random
 
 
 class ScenarioDirector:
-    """
-    Selects one available scenario for every gameplay slot.
-
-    Scenario IDs are used instead of list indexes because the API
-    is not required to return scenarios in a particular order.
-    """
 
     SCENARIO_POOLS = {
         "home_phone": [1, 7, 10],
