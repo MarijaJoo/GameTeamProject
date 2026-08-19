@@ -78,8 +78,6 @@ class VirusEnemy:
                 self.reset()
 
             return
-        # If we've reached the center of the next tile,
-        # choose where to go next.
         if self.rect.center == self.target_center:
             self._choose_next_target(
                 walls
@@ -119,7 +117,6 @@ class VirusEnemy:
         if not valid_directions:
             return
 
-        # Prefer not to immediately reverse direction.
         opposite = self.OPPOSITE.get(
             self.direction
         )
