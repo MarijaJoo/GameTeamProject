@@ -388,12 +388,6 @@ class AdventureWorld:
         home.add_collision(190, 530, 90, 100, )
         home.add_collision(30, 590, 900, 30, )
 
-        # Optional central rug furniture, if needed
-        # Leave the rug itself walkable.230,
-        #                 525,
-        #                 65,
-        #                 55,
-
     def _build_school(self):
         school = self.locations["school"]
 
