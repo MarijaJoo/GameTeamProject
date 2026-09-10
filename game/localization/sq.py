@@ -3012,6 +3012,10 @@ TRANSLATIONS = {
 "atë përpara se të mund të riparohet."
 ),
 
+"Точно. Неочекувана пратка не мора да значи измама, но е добра причина прво независно да ја провериш.": (
+    "Saktë. Një paketë e papritur nuk do të thotë domosdoshmërisht mashtrim, "
+    "por është një arsye e mirë për ta verifikuar fillimisht në mënyrë të pavarur."
+),
 "WPA3": "WPA3",
 (
 "WPA3 е најновиот безбедносен стандард за Wi-Fi мрежи и "

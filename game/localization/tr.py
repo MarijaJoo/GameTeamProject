@@ -690,9 +690,14 @@ TRANSLATIONS = {
     "Пораката пристигнала рано наутро, кога службите за достава обично не работат":
         "Mesaj, teslimat hizmetlerinin genellikle çalışmadığı sabahın erken saatlerinde geldi",
     "Точно. Неочекувана пратка не мора да означава измама, но е добра причина прво независно да ја провериш.":
-        "Doğru. Beklenmedिक bir paket mutlaka bir dolandırıcılık anlamına gelmez, ancak önce bağımsız olarak doğrulamak için iyi bir nedendir.",
+        "Doğru. Beklenmedik bir paket mutlaka dolandırıcılık anlamına gelmez, ancak önce bağımsız olarak doğrulamak için iyi bir nedendir.",
     "Времето на пристигнување не е сигурен показател. Поважно е што немаш причина да очекуваш пратка.":
         "Varış zamanı güvenilir bir gösterge değildir. Daha önemli olan, bir paket beklemek için hiçbir nedeninizin olmamasıdır.",
+"Точно. Неочекувана пратка не мора да значи измама, но е добра причина прво независно да ја провериш.": (
+    "Doğru. Beklenmedik bir paket mutlaka dolandırıcılık anlamına gelmez, "
+    "ancak önce bağımsız olarak doğrulamak için iyi bir nedendir."
+),
+
 
     # Clue 2
     "Логото и изгледот на страницата делуваат убедливо. Колку треба да им веруваш?":

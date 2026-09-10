@@ -2598,6 +2598,10 @@ TRANSLATIONS = {
     "watches, and home devices, are often targeted by attacks "
     "if they are not properly secured."
 ),
+"Точно. Неочекувана пратка не мора да значи измама, но е добра причина прво независно да ја провериш.": (
+    "Correct. An unexpected package does not necessarily mean a scam, "
+    "but it is a good reason to verify it independently first."
+),
 
 
 
