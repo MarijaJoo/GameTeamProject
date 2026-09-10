@@ -1,4 +1,5 @@
 import pygame
+from game.localization.localization import t
 
 from game.adventure.settings import (
     BACKGROUND_COLOR,
@@ -13,7 +14,7 @@ class MenuPanel:
     OPTIONS = [
         "Почни нов ден",
         "Како се игра",
-        "Искочи",
+        "Излези",
     ]
 
     def __init__(
@@ -67,7 +68,7 @@ class MenuPanel:
         )
 
         subtitle = self.body_font.render(
-            "Дали можеш безбедно да го поминеш денот?",
+            t("Дали можеш безбедно да го поминеш денот?"),
             True,
             SUBTEXT_COLOR,
         )
@@ -85,13 +86,19 @@ class MenuPanel:
         )
 
         player_text = self.body_font.render(
-            f"Играч: {username}",
+            t(
+                "Играч: {username}",
+                username=username,
+            ),
             True,
             TEXT_COLOR,
         )
 
         score_text = self.body_font.render(
-            f"Поени на профилот: {account_score}",
+            t(
+                "Поени на профилот: {account_score}",
+                account_score=account_score,
+            ),
             True,
             TEXT_COLOR,
         )
@@ -130,7 +137,7 @@ class MenuPanel:
             )
 
             option_text = self.body_font.render(
-                option,
+                t(option),
                 True,
                 text_color,
             )
@@ -170,7 +177,7 @@ class MenuPanel:
             )
 
         instruction = self.body_font.render(
-            "Користи W/S или стрелките на тастатурата, потоа притисни ENTER",
+            t("Користи W/S или стрелките на тастатурата, потоа притисни ENTER"),
             True,
             SUBTEXT_COLOR,
         )
@@ -203,7 +210,7 @@ class HowToPlayPanel:
         screen.fill(BACKGROUND_COLOR)
 
         title = self.title_font.render(
-            "HOW TO PLAY",
+            t("HOW TO PLAY"),
             True,
             TEXT_COLOR,
         )
@@ -233,7 +240,7 @@ class HowToPlayPanel:
 
         for line in instructions:
             rendered = self.body_font.render(
-                line,
+                t(line),
                 True,
                 TEXT_COLOR,
             )
@@ -250,7 +257,7 @@ class HowToPlayPanel:
             y += 55
 
         back_text = self.body_font.render(
-            "Притисни ESCAPE или BACKSPACE за да се вратиш назад",
+            t("Притисни ESCAPE или BACKSPACE за да се вратиш назад"),
             True,
             SUBTEXT_COLOR,
         )

@@ -8,6 +8,7 @@ from game.adventure.settings import (
     TEXT_COLOR,
     WIDTH,
 )
+from game.localization import t
 
 
 class UsernamePanel:
@@ -62,7 +63,7 @@ class UsernamePanel:
         screen.fill(BACKGROUND_COLOR)
 
         title = self.title_font.render(
-            "CYBER SECURITY ADVENTURE",
+            t("CYBER SECURITY ADVENTURE"),
             True,
             TEXT_COLOR,
         )
@@ -80,7 +81,7 @@ class UsernamePanel:
         )
 
         prompt = self.body_font.render(
-            "Внесете го вашето корисничко име",
+            t("Внесете го вашето корисничко име"),
             True,
             SUBTEXT_COLOR,
         )
@@ -122,7 +123,7 @@ class UsernamePanel:
         visible_username = (
             self.username
             if self.username
-            else "Type here..."
+            else t("Внесете го вашето корисничко име...")
         )
 
         username_color = (
@@ -190,7 +191,7 @@ class UsernamePanel:
             )
 
         instruction = self.body_font.render(
-            "Притисни ENTER за да продолжиш",
+           t( "Притисни ENTER за да продолжиш"),
             True,
             SUBTEXT_COLOR,
         )

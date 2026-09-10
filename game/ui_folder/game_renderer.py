@@ -15,6 +15,14 @@ class GameRenderer:
         The game object provides the current world, player,
         panels, fonts, score, and state.
         """
+        if game.game_state == "language":
+            game.language_panel.draw(
+                game.screen
+            )
+            pygame.display.flip()
+
+            return
+
         if game.game_state == "username":
             game.username_panel.draw(
                 game.screen

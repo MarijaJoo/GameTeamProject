@@ -1,6 +1,9 @@
 import sys
 
 import pygame
+
+from game.localization import t
+
 from game.ui_folder.story_panel import StoryPanel
 from game.adventure.scenario_director import (
     ScenarioDirector,
@@ -54,6 +57,10 @@ from game.ui_folder.scenario_panel import (
 from game.arcade.arcade_game import (
     ArcadeGame,
 )
+from game.ui_folder.language_panel import (
+    LanguagePanel,
+)
+
 
 class AdventureGame:
     def __init__(self):
@@ -63,6 +70,8 @@ class AdventureGame:
         self.player_id = None
         self.score = 0
         self.starting_score = 0
+
+        # self.localization = localization
 
         self.api = GameAPIClient(
             mode="auto"
@@ -74,7 +83,7 @@ class AdventureGame:
 
         if not self.scenarios:
             raise RuntimeError(
-                "No online or offline scenarios were available."
+                 "Не беа достапни онлајн или офлајн сценарија."
             )
 
         self.scenarios_by_id = {
@@ -132,6 +141,11 @@ class AdventureGame:
             self.title_font,
             self.body_font,
         )
+        self.language_panel = LanguagePanel(
+            self.title_font,
+            self.body_font,
+        )
+
 
         self.world = AdventureWorld(
             WIDTH,
@@ -199,7 +213,8 @@ class AdventureGame:
 
         self.scenario_engine = None
 
-        self.game_state = "username"
+        # self.game_state = "username"
+        self.game_state = "language"
 
         self.current_object = None
         self.current_scenario = None
@@ -283,8 +298,8 @@ class AdventureGame:
         }
 
         self.knowledge_popup_message = (
-            f"Knowledge collected: "
-            f"{collectible.name}"
+                t("Собрано знаење: ")
+                + collectible.name
         )
 
         self.knowledge_popup_until = (
@@ -305,16 +320,18 @@ class AdventureGame:
 
         if collected == 1:
             self.show_notice(
-                "Game console unlocked! "
-                "Security Defender Level 1 is now available.",
+                t(
+                    "Играчката конзола е отклучена! "
+                    "Security Defender ниво 1 сега е достапно."
+                ),
                 duration=4500,
             )
 
         elif collected <= 4:
             self.show_notice(
-                (
-                    f"Security Defender Level "
-                    f"{collected} unlocked!"
+                t(
+                    "Security Defender ниво {level} е отклучено!",
+                    level=collected,
                 ),
                 duration=4000,
             )

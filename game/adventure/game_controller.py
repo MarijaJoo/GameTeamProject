@@ -47,6 +47,7 @@ class GameController:
             return
 
         handlers = {
+            "language": self._handle_language_event,
             "username": self._handle_username_event,
             "menu": self._handle_menu_event,
             "how_to_play": self._handle_how_to_play_event,
@@ -62,6 +63,16 @@ class GameController:
 
         if handler is not None:
             handler(event)
+
+    def _handle_language_event(self, event):
+        game = self.game
+
+        selected_language = (
+            game.language_panel.handle_event(event)
+        )
+
+        if selected_language is not None:
+            game.game_state = "username"
 
 
     def _handle_username_event(self, event):
@@ -131,12 +142,12 @@ class GameController:
 
     def _execute_menu_option(self, option_text):
         game = self.game
-        if option_text == "Start New Day":
+        if option_text == "Почни нов ден":
             game.start_new_day()
             self._update_bgm_for_location("home")
-        elif option_text == "How to Play":
+        elif option_text == "Како се игра":
             game.game_state = "how_to_play"
-        elif option_text == "Quit":
+        elif option_text == "Излези":
             game.running = False
 
     def _handle_how_to_play_event(self, event):

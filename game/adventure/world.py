@@ -16,39 +16,64 @@ from game.adventure.settings import (
 from game.adventure.knowledge_collectible import (
     KnowledgeCollectible,
 )
+from game.localization import t
+# SCENARIO_OBJECT_NAMES = {
+#     # Home phone
+#     1: "Phone Message",
+#     7: "Delivery Message",
+#     10: "QR Giveaway",
+#
+#     # Home computer
+#     2: "Game Message",
+#     8: "Security Email",
+#     11: "Game Download",
+#
+#     # School computer
+#     3: "System Update",
+#     9: "Browser Warning",
+#     12: "School Account",
+#
+#     # School object
+#     4: "Unknown USB",
+#     13: "Unknown Charger",
+#     14: "Lost Tablet",
+#
+#     # Park
+#     5: "Online Message",
+#     15: "Viral Challenge",
+#     16: "Meeting Request",
+#
+#     # Internet café
+#     6: "Wi-Fi Menu",
+#     17: "Public Computer",
+#     18: "Open Session",
+# }
 
 SCENARIO_OBJECT_NAMES = {
-    # Home phone
-    1: "Phone Message",
-    7: "Delivery Message",
-    10: "QR Giveaway",
+    1: "Телефонска порака",
+    7: "Порака за достава",
+    10: "QR наградна игра",
 
-    # Home computer
-    2: "Game Message",
-    8: "Security Email",
-    11: "Game Download",
+    2: "Порака за игра",
+    8: "Безбедносен е-пошта",
+    11: "Преземање игра",
 
-    # School computer
-    3: "System Update",
-    9: "Browser Warning",
-    12: "School Account",
+    3: "Системско ажурирање",
+    9: "Предупредување од прелистувачот",
+    12: "Училишна сметка",
 
-    # School object
-    4: "Unknown USB",
-    13: "Unknown Charger",
-    14: "Lost Tablet",
+    4: "Непознат USB",
+    13: "Непознат полнач",
+    14: "Изгубен таблет",
 
-    # Park
-    5: "Online Message",
-    15: "Viral Challenge",
-    16: "Meeting Request",
+    5: "Онлајн порака",
+    15: "Вирален предизвик",
+    16: "Барање за средба",
 
-    # Internet café
-    6: "Wi-Fi Menu",
-    17: "Public Computer",
-    18: "Open Session",
+    6: "Wi-Fi мени",
+    17: "Јавен компјутер",
+    18: "Отворена сесија",
 }
-
 
 class AdventureWorld:
     def __init__(
@@ -95,7 +120,7 @@ class AdventureWorld:
 
         self.locations = {
             "home": AdventureLocation(
-                name="Home",
+                name=t("Дома"),
                 bounds=room_bounds,
                 player_spawn=(470, 540),
                 background_color=(60, 68, 88),
@@ -103,7 +128,7 @@ class AdventureWorld:
             ),
 
             "school": AdventureLocation(
-                name="School Computer Lab",
+                name=t("Училишна компјутерска лабораторија"),
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(65, 76, 90),
@@ -111,7 +136,7 @@ class AdventureWorld:
             ),
 
             "park": AdventureLocation(
-                name="Park",
+                name=t("Парк"),
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(58, 86, 72),
@@ -119,7 +144,7 @@ class AdventureWorld:
             ),
 
             "internet_cafe": AdventureLocation(
-                name="Internet Café",
+                name=t("Интернет кафе"),
                 bounds=room_bounds,
                 player_spawn=(100, 520),
                 background_color=(72, 62, 82),
@@ -175,13 +200,15 @@ class AdventureWorld:
         return scenario_id
 
     def _object_name(
-        self,
-        scenario_id,
-        fallback_name,
-    ):
-        return SCENARIO_OBJECT_NAMES.get(
+            self,
             scenario_id,
             fallback_name,
+    ):
+        return t(
+            SCENARIO_OBJECT_NAMES.get(
+                scenario_id,
+                fallback_name,
+            )
         )
 
     def get_scenario_objects(
@@ -273,35 +300,45 @@ class AdventureWorld:
 
         if required_location == "home":
             return (
-                "Complete both activities at Home "
-                "before leaving for School."
+                t(
+                    "Заврши ги двете активности дома "
+                    "пред да заминеш во училиште."
+                )
             )
 
         if required_location == "school":
             return (
-                "Complete both School activities "
-                "before going to the Park."
+                 t(
+        "Заврши ги двете активности во училиште "
+        "пред да одиш во парк."
+    )
             )
 
         if required_location == "park":
             return (
-                "Complete the Park event before "
-                "going to the Internet Café."
+                t(
+                    "Заврши ја активноста во паркот "
+                    "пред да одиш во интернет кафето."
+                )
             )
 
         if required_location == "internet_cafe":
-            return (
-                "Complete the Café event before "
-                "returning Home."
+            return t(
+                "Заврши ја активноста во интернет кафето "
+                "пред да се вратиш дома."
             )
 
         if interactable.requires_all_scenarios:
             return (
-                "Complete all six events before "
-                "ending the day."
+                t(
+                    "Заврши ги сите шест настани "
+                    "пред да го завршиш денот."
+                )
             )
 
-        return "This interaction is currently locked."
+        return t(
+            "Оваа интеракција моментално е заклучена."
+        )
 
     def _build_home(self):
         home = self.locations["home"]
@@ -316,7 +353,7 @@ class AdventureWorld:
 
         home.add_interactable(
             Interactable(230,525,65,55,
-                name=self._object_name(phone_scenario,"Phone",),
+                name=self._object_name(phone_scenario,"Телефон",),
                 scenario_id=phone_scenario,
                 show_placeholder=False,
             )
@@ -324,7 +361,7 @@ class AdventureWorld:
 
         home.add_interactable(
             Interactable(340,205,170,110,
-                name=self._object_name(computer_scenario,"Computer",),
+                name=self._object_name(computer_scenario,"Компјутер",),
                 scenario_id=computer_scenario,
                 show_placeholder=False,
             )
@@ -332,7 +369,7 @@ class AdventureWorld:
 
         home.add_interactable(
             Interactable(448,585,110,60,
-                name="Go to School",
+                name=t("Оди во училиште"),
                 interaction_type="location",
                 target_location="school",
                 required_location_complete="home",
@@ -353,7 +390,7 @@ class AdventureWorld:
 
         home.add_interactable(
             Interactable(95,210,130,180,
-                name="End the Day",
+                name=t("Заврши го денот"),
                 interaction_type="ending",
                 requires_all_scenarios=True,
                 show_placeholder=False,
@@ -363,10 +400,10 @@ class AdventureWorld:
             KnowledgeCollectible(
                 x=860,
                 y=270,
-                name="Password Manager",
-                description=(
-                    "A password manager stores strong, unique "
-                    "passwords in an encrypted vault."
+                name=t("Менаџер за лозинки"),
+                description=t(
+                    "Менаџерот за лозинки чува силни, уникатни "
+                    "лозинки во шифриран трезор."
                 ),
             )
         )
@@ -401,7 +438,7 @@ class AdventureWorld:
 
         school.add_interactable(
             Interactable(730,300,70,75,
-                name=self._object_name(pc_scenario,"School PC",),
+                name=self._object_name(pc_scenario,"Училишен компјутер"),
                 scenario_id=pc_scenario,
                 show_placeholder=False,
             )
@@ -409,7 +446,7 @@ class AdventureWorld:
 
         school.add_interactable(
             Interactable(60,320,90,155,
-                name=self._object_name(object_scenario,"School Object",),
+                name=self._object_name(object_scenario,"Училишен предме",),
                 scenario_id=object_scenario,
                 show_placeholder=False,
             )
@@ -417,7 +454,7 @@ class AdventureWorld:
 
         school.add_interactable(
             Interactable(460,590,80,100,
-                name="Return Home",
+                name=t("Врати се дома"),
                 interaction_type="location",
                 target_location="home",
                 show_placeholder=False,
@@ -426,7 +463,7 @@ class AdventureWorld:
 
         school.add_interactable(
             Interactable(885,270,80,100,
-                name="Go to Park",
+                name=t("Оди во парк"),
                 interaction_type="location",
                 target_location="park",
                 required_location_complete="school",
@@ -438,10 +475,10 @@ class AdventureWorld:
             KnowledgeCollectible(
                 x=325,
                 y=200,
-                name="Encrypted USB",
-                description=(
-                    "Encryption protects files by making them "
-                    "unreadable without the correct key."
+                name=t("Шифриран USB"),
+                description=t(
+                    "Енкрипцијата ги штити датотеките со тоа што"
+                    "ги прави нечитливи без точниот клуч."
                 ),
             )
         )
@@ -496,7 +533,7 @@ class AdventureWorld:
                 580,
                 80,
                 80,
-                name="Return to School",
+                name=t("Врати се во училиште"),
                 interaction_type="location",
                 target_location="school",
                 show_placeholder=False,
@@ -509,7 +546,7 @@ class AdventureWorld:
                 150,
                 80,
                 100,
-                name="Go to Café",
+                name=t("Оди во кафе"),
                 interaction_type="location",
                 target_location="internet_cafe",
                 required_location_complete="park",
@@ -520,10 +557,9 @@ class AdventureWorld:
             KnowledgeCollectible(
                 x=780,
                 y=360,
-                name="Security Badge",
-                description=(
-                    "Security badges help control physical access "
-                    "to protected buildings and systems."
+                name=t("Безбедносна картичка"),
+                description=t(
+                    "Безбедносните картички помагаат во контролата на физичкиот пристап до заштитените згради и системи."
                 ),
             )
         )
@@ -552,7 +588,7 @@ class AdventureWorld:
 
         cafe.add_interactable(
             Interactable(730,460,130,85,
-                name=self._object_name(cafe_scenario,"Café Event",),
+                name=self._object_name(cafe_scenario,"Настан во интернет кафе"),
                 scenario_id=cafe_scenario,
                 show_placeholder=False,
             )
@@ -560,7 +596,7 @@ class AdventureWorld:
 
         cafe.add_interactable(
             Interactable(455,580,120,40,
-                name="Return Home",
+                name=t("Врати се дома"),
                 interaction_type="location",
                 target_location="home",
                 required_location_complete=("internet_cafe"),
@@ -571,10 +607,10 @@ class AdventureWorld:
             KnowledgeCollectible(
                 x=70,
                 y=195,
-                name="VPN Token",
-                description=(
-                    "A VPN encrypts network traffic between your "
-                    "device and the VPN service."
+                name=t("VPN токен"),
+                description=t(
+                    "VPN го енкриптира мрежниот сообраќај помеѓу вашиот "
+                    "уред и VPN услугата."
                 ),
             )
         )

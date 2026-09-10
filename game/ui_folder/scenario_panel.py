@@ -1,5 +1,7 @@
 import pygame
 
+from game.localization import t
+
 from game.adventure.settings import (
     ANSWER_BORDER_COLOR,
     ANSWER_BOX_COLOR,
@@ -68,7 +70,7 @@ class ScenarioPanel:
         )
 
         title = self.title_font.render(
-            scenario["npc_name"],
+            t(scenario["npc_name"]),
             True,
             TEXT_COLOR,
         )
@@ -87,7 +89,7 @@ class ScenarioPanel:
 
         y = draw_wrapped_text(
             screen,
-            scenario["description"],
+            t(scenario["description"]),
             self.body_font,
             TEXT_COLOR,
             panel.x + 40,
@@ -129,7 +131,7 @@ class ScenarioPanel:
 
             answer_text = (
                 f"{index + 1}. "
-                f"{action['action_text']}"
+                f"{t(action['action_text'])}"
             )
 
             draw_wrapped_text(
@@ -145,7 +147,7 @@ class ScenarioPanel:
             y += 85
 
         instruction = self.body_font.render(
-            "Притисни 1 или 2 за да избереш",
+            t("Притисни 1 или 2 за да избереш"),
             True,
             SUBTEXT_COLOR,
         )

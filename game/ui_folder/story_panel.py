@@ -1,5 +1,7 @@
 import pygame
 
+from game.localization import t
+
 from game.adventure.settings import (
     ANSWER_BORDER_COLOR,
     ANSWER_BOX_COLOR,
@@ -77,7 +79,7 @@ class StoryPanel:
         panel = self._create_panel(screen)
 
         speaker = self.title_font.render(
-            step["speaker"],
+            t(step["speaker"]),
             True,
             POPUP_BORDER,
         )
@@ -89,7 +91,7 @@ class StoryPanel:
 
         draw_wrapped_text(
             screen,
-            step["text"],
+            t(step["text"]),
             self.body_font,
             TEXT_COLOR,
             panel.x + 40,
@@ -99,7 +101,7 @@ class StoryPanel:
         )
 
         instruction = self.body_font.render(
-            "Притисни SPACE за да продолжиш",
+            t("Притисни SPACE за да продолжиш"),
             True,
             SUBTEXT_COLOR,
         )
@@ -114,8 +116,9 @@ class StoryPanel:
         panel = self._create_panel(screen)
 
         heading = self.title_font.render(
-            (
-                f"Помош {engine.clues_answered + 1}"
+            t(
+                "Помош {number}",
+                number=engine.clues_answered + 1,
             ),
             True,
             POPUP_BORDER,
@@ -128,7 +131,7 @@ class StoryPanel:
 
         y = draw_wrapped_text(
             screen,
-            step["question"],
+            t(step["question"]),
             self.body_font,
             TEXT_COLOR,
             panel.x + 40,
@@ -163,7 +166,7 @@ class StoryPanel:
 
             draw_wrapped_text(
                 screen,
-                f"{index + 1}. {answer}",
+                f"{index + 1}. {t(answer)}",
                 self.body_font,
                 TEXT_COLOR,
                 answer_box.x + 15,
@@ -174,7 +177,7 @@ class StoryPanel:
             y += 88
 
         instruction = self.body_font.render(
-            "Притисни 1 или 2 за да провериш",
+            t("Притисни 1 или 2 за да провериш"),
             True,
             SUBTEXT_COLOR,
         )
@@ -196,9 +199,9 @@ class StoryPanel:
 
         heading = self.title_font.render(
             (
-                "GOOD OBSERVATION!"
+                t("ДОБРО ЗАБЕЛЕЖАНО!")
                 if engine.feedback_correct
-                else "LOOK MORE CAREFULLY"
+                else t("ПОГЛЕДНИ ВНИМАТЕЛНО")
             ),
             True,
             color,
@@ -212,7 +215,7 @@ class StoryPanel:
 
         draw_wrapped_text(
             screen,
-            engine.feedback_message,
+            t(engine.feedback_message),
             self.body_font,
             TEXT_COLOR,
             panel.x + 45,
@@ -221,7 +224,7 @@ class StoryPanel:
         )
 
         instruction = self.body_font.render(
-            "Притисни SPACE за да продолжиш",
+            t("Притисни SPACE за да продолжиш"),
             True,
             SUBTEXT_COLOR,
         )
@@ -236,7 +239,7 @@ class StoryPanel:
         panel = self._create_panel(screen)
 
         heading = self.title_font.render(
-            "КРАЈНА ОДЛУКА",
+            t("КРАЈНА ОДЛУКА"),
             True,
             POPUP_BORDER,
         )
@@ -249,7 +252,7 @@ class StoryPanel:
 
         y = draw_wrapped_text(
             screen,
-            step["intro"],
+            t(step["intro"]),
             self.body_font,
             TEXT_COLOR,
             panel.x + 40,
@@ -289,7 +292,7 @@ class StoryPanel:
 
             draw_wrapped_text(
                 screen,
-                f"{index + 1}. {answer}",
+                f"{index + 1}. {t(answer)}",
                 self.body_font,
                 TEXT_COLOR,
                 answer_box.x + 15,
@@ -300,7 +303,7 @@ class StoryPanel:
             y += 88
 
         instruction = self.body_font.render(
-            "Притисни 1 или 2 за да го селектираш одговорот",
+            t("Притисни 1 или 2 за да го селектираш одговорот"),
             True,
             SUBTEXT_COLOR,
         )

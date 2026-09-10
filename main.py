@@ -251,15 +251,21 @@ while True:
                     game_state = "CONFIRM_EXIT"
                 elif game_state == "CONFIRM_EXIT":
                     game_state = previous_state
-            elif game_state == "START" and event.key == pygame.K_SPACE:
+
+            # Allow both SPACE and ENTER (Return / Numpad Enter) to start the game
+            elif game_state == "START" and event.key in [pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER]:
                 game_state = "PLAYING"
+
             elif game_state == "DIALOGUE":
-                if event.key == pygame.K_1:
+                if event.key in [pygame.K_1, pygame.K_KP1]:
                     submit_answer(1)
-                elif event.key == pygame.K_2:
+                elif event.key in [pygame.K_2, pygame.K_KP2]:
                     submit_answer(2)
-            elif game_state == "FEEDBACK" and event.key == pygame.K_SPACE:
-                if current_npc in npcs: npcs.remove(current_npc)
+
+            # Allow both SPACE and ENTER to proceed from feedback
+            elif game_state == "FEEDBACK" and event.key in [pygame.K_SPACE, pygame.K_RETURN, pygame.K_KP_ENTER]:
+                if current_npc in npcs:
+                    npcs.remove(current_npc)
                 current_npc = None
                 game_state = "END" if len(npcs) == 0 else "PLAYING"
 

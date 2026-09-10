@@ -1,5 +1,8 @@
 import pygame
 
+from game.localization import t
+
+
 from game.adventure.settings import (
     COMPLETION_OVERLAY_COLOR,
     HEIGHT,
@@ -26,7 +29,7 @@ class CompletionPanel:
         y,
     ):
         text = self.body_font.render(
-            f"{label}: {value}",
+            f"{t(label)}: {value}",
             True,
             TEXT_COLOR,
         )
@@ -82,7 +85,7 @@ class CompletionPanel:
         )
 
         heading = self.title_font.render(
-            "DAY COMPLETE",
+            t("ДЕНЕШНИОТ ДЕН Е ЗАВРШЕН"),
             True,
             TEXT_COLOR,
         )
@@ -103,7 +106,7 @@ class CompletionPanel:
 
         self.draw_stat(
             screen,
-            "Points earned today",
+            t("Освоени поени денес"),
             report["day_score"],
             y,
         )
@@ -112,7 +115,7 @@ class CompletionPanel:
 
         self.draw_stat(
             screen,
-            "Total account score",
+            t("Вкупен резултат "),
             report["total_score"],
             y,
         )
@@ -121,7 +124,7 @@ class CompletionPanel:
 
         self.draw_stat(
             screen,
-            "Correct clues",
+            t("Точни помошни прашања"),
             (
                 f"{report['correct_clues']} / "
                 f"{report['total_clues']}"
@@ -133,7 +136,7 @@ class CompletionPanel:
 
         self.draw_stat(
             screen,
-            "Safe final decisions",
+            t("Безбедни конечни одлуки"),
             (
                 f"{report['correct_decisions']} / "
                 f"{report['total_decisions']}"
@@ -145,13 +148,13 @@ class CompletionPanel:
 
         self.draw_stat(
             screen,
-            "Maximum day score",
+            t("Максимален резултат за денот"),
             report["maximum_score"],
             y,
         )
 
         close_text = self.body_font.render(
-            "R: New Day    M: Main Menu    Q: Quit",
+            t("R: Нов ден     M:  Главно мени     Q:  Излез"),
             True,
             SUBTEXT_COLOR,
         )

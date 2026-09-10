@@ -1,5 +1,8 @@
 import pygame
 
+from game.localization import t
+
+
 from game.arcade.arcade_map import (
     ArcadeMap,
 )
@@ -519,8 +522,8 @@ class ArcadeGame:
             screen,
     ):
         title = self.title_font.render(
-            "SECURITY DEFENDER",
-            True,
+        t("БЕЗБЕДНОСЕН БРАНИТЕЛ"),
+        True,
             ARCADE_ACCENT_COLOR,
         )
 
@@ -537,7 +540,7 @@ class ArcadeGame:
         )
 
         subtitle = self.body_font.render(
-            "Избери ниво",
+            t("Избери ниво"),
             True,
             ARCADE_TEXT_COLOR,
         )
@@ -623,7 +626,7 @@ class ArcadeGame:
 
             level_text = (
                 self.body_font.render(
-                    f"НИВО {level_number}",
+                    t("НИВО {number}", number=level_number),
                     True,
                     text_color,
                 )
@@ -641,9 +644,9 @@ class ArcadeGame:
             screen.blit(level_text,level_rect,)
 
             if unlocked:
-                status = "ОТКЛУЧЕНО"
+                status = t("ОТКЛУЧЕНО")
             else:
-                status = "ЗАКЛУЧЕНО"
+                status = t("ЗАКЛУЧЕНО")
 
             status_text = (
                 self.body_font.render(
@@ -666,8 +669,7 @@ class ArcadeGame:
 
         controls = self.body_font.render(
             (
-                "A/D или стрелки: избор    "
-                "SPACE: играј    ESC: назад"
+                t("A/D или стрелки: избор    SPACE: играј    ESC: назад")
             ),
             True,
             ARCADE_SUBTEXT_COLOR,
@@ -708,7 +710,7 @@ class ArcadeGame:
         )
 
         title = self.title_font.render(
-            "SECURITY DEFENDER",
+            t("БЕЗБЕДНОСЕН БРАНИТЕЛ"),
             True,
             ARCADE_ACCENT_COLOR,
         )
@@ -726,12 +728,10 @@ class ArcadeGame:
         )
 
         instructions = [
-            (
-                "Collect every knowledge point "
-                "inside the network."
-            ),
-            "Move with WASD or arrow keys.",
-            "Avoiding cyber threats will be added next.",
+
+            t("Собери ги сите точки на знаење во мрежата."),
+            t("Движи се со WASD или стрелките."),
+            t("Избегнувај ги сајбер заканите."),
         ]
 
         y = panel.y + 145
@@ -759,7 +759,7 @@ class ArcadeGame:
             y += 48
 
         start_text = self.body_font.render(
-            "Press SPACE to start",
+            t("Притисни SPACE за да започнеш"),
             True,
             ARCADE_ACCENT_COLOR,
         )
@@ -774,7 +774,7 @@ class ArcadeGame:
         screen.blit(start_text,start_rect,)
 
         exit_text = self.body_font.render(
-            "Press ESC to return Home",
+            t("Притисни ESC за да се вратиш Дома"),
             True,
             ARCADE_SUBTEXT_COLOR,
         )
@@ -817,13 +817,13 @@ class ArcadeGame:
 
     def _draw_gameplay_hud(self,screen,):
         score_text = self.body_font.render(
-            f"Поени: {self.score}",
+            t("Поени: {score}", score=self.score),
             True,
             ARCADE_TEXT_COLOR,
         )
         lives_text = self.body_font.render(
-            f"Животи: {self.lives}",
-            True,
+            t("Животи: {lives}", lives=self.lives),
+        True,
             ARCADE_TEXT_COLOR,
         )
         screen.blit(lives_text,(30, 55),
@@ -836,8 +836,10 @@ class ArcadeGame:
         remaining_text = (
             self.body_font.render(
                 (
-                    "Преостанати модули: "
-                    f"{remaining}"
+                    t(
+                        "Преостанати модули: {remaining}",
+                        remaining=remaining,
+                    )
                 ),
                 True,
                 ARCADE_TEXT_COLOR,
@@ -848,7 +850,10 @@ class ArcadeGame:
             for knowledge_dot in self.arcade_map.knowledge_dots
         )
         knowledge_text = self.body_font.render(
-            f"Knowledge: {remaining_knowledge}",
+            t(
+                "Знаење: {number}",
+                number=remaining_knowledge,
+            ),
             True,
             ARCADE_TEXT_COLOR,
         )
@@ -858,7 +863,7 @@ class ArcadeGame:
         )
 
         exit_text = self.body_font.render(
-            "ESC: Врати се Дома",
+            t("ESC: Врати се Дома"),
             True,
             ARCADE_SUBTEXT_COLOR,
         )
@@ -891,9 +896,10 @@ class ArcadeGame:
             )
 
             update_text = self.body_font.render(
-                (
-                    "SECURITY UPDATE: "
-                    f"{remaining_seconds:.1f}s"
+                (t(
+                        "БЕЗБЕДНОСНО АЖУРИРАЊЕ: {seconds:.1f}s",
+                        seconds=remaining_seconds,
+                    )
                 ),
                 True,
                 (100, 195, 255),
@@ -955,7 +961,7 @@ class ArcadeGame:
         )
 
         title = self.title_font.render(
-            "GAME OVER",
+            t("КРАЈ НА ИГРАТА"),
             True,
             (220, 70, 85),
         )
@@ -973,7 +979,10 @@ class ArcadeGame:
         )
 
         score_text = self.body_font.render(
-            f"Резултат: {self.score}",
+            t(
+                "Резултат: {score}",
+                score=self.score,
+            ),
             True,
             ARCADE_TEXT_COLOR,
         )
@@ -991,7 +1000,7 @@ class ArcadeGame:
         )
 
         controls = self.body_font.render(
-            "SPACE: Обиди се повторно    ESC: Назад",
+            t("SPACE: Обиди се повторно    ESC: Назад"),
             True,
             ARCADE_SUBTEXT_COLOR,
         )
@@ -1029,7 +1038,7 @@ class ArcadeGame:
 
         pygame.draw.rect(screen,ARCADE_ACCENT_COLOR,panel,3,border_radius=16,)
 
-        title = self.title_font.render("NETWORK SECURED!",True,ARCADE_ACCENT_COLOR,)
+        title = self.title_font.render(t("МРЕЖАТА Е ОБЕЗБЕДЕНА!"),True,ARCADE_ACCENT_COLOR,)
 
         title_rect = title.get_rect(
             center=(
@@ -1041,7 +1050,10 @@ class ArcadeGame:
         screen.blit(title,title_rect,)
 
         score = self.body_font.render(
-            f"Финални поени: {self.score}",
+            t(
+                "Финални поени: {score}",
+                score=self.score,
+            ),
             True,
             ARCADE_TEXT_COLOR,
         )
@@ -1056,7 +1068,7 @@ class ArcadeGame:
         screen.blit(score,score_rect,)
 
         controls = self.body_font.render(
-            "R: Играј повторно    SPACE: Врати се Дома",
+            t("R: Играј повторно    SPACE: Врати се Дома"),
             True,
             ARCADE_SUBTEXT_COLOR,
         )
@@ -1141,7 +1153,7 @@ class ArcadeGame:
         )
 
         title = self.title_font.render(
-            self.active_knowledge_dot.name,
+            t(self.active_knowledge_dot.name),
             True,
             ARCADE_ACCENT_COLOR,
         )
@@ -1156,7 +1168,7 @@ class ArcadeGame:
         screen.blit(title,title_rect,)
 
         lines = self._wrap_text(
-            self.active_knowledge_dot.description,
+            t(self.active_knowledge_dot.description),
             panel.width - 90,
         )
 
@@ -1176,7 +1188,7 @@ class ArcadeGame:
             y += 36
 
         continue_text = self.body_font.render(
-            "Притисни SPACE за да продолжиш",
+            t("Притисни SPACE за да продолжиш"),
             True,
             ARCADE_SUBTEXT_COLOR,
         )

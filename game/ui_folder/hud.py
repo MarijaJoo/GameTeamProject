@@ -1,5 +1,7 @@
 import pygame
 
+from game.localization import t
+
 from game.adventure.settings import (
     HEIGHT,
     OFFLINE_COLOR,
@@ -28,21 +30,21 @@ class AdventureHUD:
         location_name,
     ):
         username_text = self.hud_font.render(
-            f"Играч: {username}",
+            t("Играч: {username}", username=username),
             True,
             TEXT_COLOR,
         )
 
         score_text = self.hud_font.render(
-            f"Поени: {score}",
+            t("Поени: {score}", score=score),
             True,
             TEXT_COLOR,
         )
 
         connection_mode = (
-            "Онлајн"
+            t("Онлајн")
             if is_online
-            else "Офлајн"
+            else t("Офлајн")
         )
 
         mode_color = (
@@ -52,7 +54,10 @@ class AdventureHUD:
         )
 
         mode_text = self.body_font.render(
-            f"Поврзаност: {connection_mode}",
+            t(
+                "Поврзаност: {connection_mode}",
+                connection_mode=connection_mode,
+            ),
             True,
             mode_color,
         )
@@ -110,20 +115,20 @@ class AdventureHUD:
             return
 
         if interactable.interaction_type == "location":
-            prompt_text = (
-                f"Притисни E за да употребиш "
-                f"{interactable.name}"
+            prompt_text = t(
+                "Притисни E за да употребиш {name}",
+                name=t(interactable.name),
             )
 
         elif interactable.interaction_type == "ending":
-            prompt_text = (
+            prompt_text = t(
                 "Притисни E за да го завршиш денот"
             )
 
         else:
-            prompt_text = (
-                f"Притисни E да погледнеш "
-                f"{interactable.name}"
+            prompt_text = t(
+                "Притисни E да погледнеш {name}",
+                name=t(interactable.name),
             )
 
         prompt = self.body_font.render(
@@ -158,9 +163,10 @@ class AdventureHUD:
             required,
     ):
         progress_text = self.body_font.render(
-            (
-                f"Модули за знаење: "
-                f"{collected} / {required}"
+            t(
+                "Модули за знаење: {collected} / {required}",
+                collected=collected,
+                required=required,
             ),
             True,
             (245, 220, 120),

@@ -14,7 +14,7 @@ from game.adventure.settings import (
 from game.ui_folder.text import (
     draw_wrapped_text,
 )
-
+from game.localization import t
 
 class FeedbackPanel:
     def __init__(
@@ -74,9 +74,9 @@ class FeedbackPanel:
         )
 
         heading_text = (
-            "GOOD DECISION!"
+            t("ДОБРА ОДЛУКА!")
             if feedback_correct
-            else "BE CAREFUL!"
+            else t("ВНИМАВАЈ!")
         )
 
         heading = self.title_font.render(
@@ -99,7 +99,7 @@ class FeedbackPanel:
 
         draw_wrapped_text(
             screen,
-            feedback_message,
+            t(feedback_message),
             self.body_font,
             TEXT_COLOR,
             panel.x + 40,
@@ -108,7 +108,7 @@ class FeedbackPanel:
         )
 
         instruction = self.body_font.render(
-            "Press SPACE to continue",
+             t("Притисни SPACE за да продолжиш"),
             True,
             SUBTEXT_COLOR,
         )
