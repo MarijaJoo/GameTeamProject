@@ -129,6 +129,21 @@ class Answer(Base):
     # Контра-релација
     side_humans = relationship("SideHuman", secondary=side_human_answers, back_populates="solutions")
 
+class Translation(Base):
+    __tablename__ = "translations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    language = Column(String, nullable=False)
+    source_text = Column(String, nullable=False)
+    translated_text = Column(String, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint(
+            "language",
+            "source_text",
+            name="uq_translation"
+        ),
+    )
 
 # Автоматско креирање на сите табели во базата
 Base.metadata.create_all(bind=engine)
@@ -511,3 +526,20 @@ def reset_player_progress(player_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"status": "success", "message": "Прогресот и поените се успешно ресетирани!"}
+
+@app.get("/translations/{language}")
+def get_translations(
+    language: str,
+    db: Session = Depends(get_db)
+):
+    translations = (
+        db.query(Translation)
+        .filter(Translation.language == language)
+        .all()
+    )
+
+    return {
+        item.source_text: item.translated_text
+        for item in translations
+    }
+

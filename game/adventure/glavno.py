@@ -60,7 +60,7 @@ from game.arcade.arcade_game import (
 from game.ui_folder.language_panel import (
     LanguagePanel,
 )
-
+from game.localization import localization
 
 class AdventureGame:
     def __init__(self):
@@ -74,7 +74,8 @@ class AdventureGame:
         # self.localization = localization
 
         self.api = GameAPIClient(
-            mode="auto"
+            base_url="http://127.0.0.1:8000",
+            mode="online"
         )
 
         self.api.connect()

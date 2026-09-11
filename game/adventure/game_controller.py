@@ -3,6 +3,7 @@ import pygame
 from game.adventure.asset_loader import SoundManager
 from game.adventure.scenario_engine import ScenarioEngine
 from game.adventure.scenarios import SCENARIO_SCRIPTS
+from game.localization import localization
 
 LOCATION_MUSIC = {
     "home": ("home.mp3", 0.20),
@@ -67,11 +68,14 @@ class GameController:
     def _handle_language_event(self, event):
         game = self.game
 
-        selected_language = (
-            game.language_panel.handle_event(event)
-        )
+        selected_language = game.language_panel.handle_event(event)
 
         if selected_language is not None:
+            language_translations = game.api.get_translations(selected_language)
+
+            localization.set_language(selected_language)
+            localization.set_translations(language_translations)
+
             game.game_state = "username"
 
 

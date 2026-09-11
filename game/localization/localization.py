@@ -1,9 +1,7 @@
 from game.localization.en import TRANSLATIONS as EN_TRANSLATIONS
 from game.localization.tr import TRANSLATIONS as TR_TRANSLATIONS
 from game.localization.sq import TRANSLATIONS as SQ_TRANSLATIONS
-
 from game.localization.scenario_en import TRANSLATIONS as SCENARIO_EN_TRANSLATIONS
-
 
 LANGUAGES = {
     "mk": "Македонски",
@@ -12,19 +10,13 @@ LANGUAGES = {
     "sq": "Shqip",
 }
 
-
 class Localization:
-    def __init__(self):
+    def __init__(self, translations=None):
         self.current_language = "mk"
+        self.translations = translations or {}
 
-        self.translations = {
-            "en": {
-                **EN_TRANSLATIONS,
-                **SCENARIO_EN_TRANSLATIONS,
-            },
-            "tr": TR_TRANSLATIONS,
-            "sq": SQ_TRANSLATIONS,
-        }
+    def set_translations(self, translations):
+        self.translations = translations or {}
 
     def set_language(self, language):
         if language in LANGUAGES:
@@ -37,14 +29,8 @@ class Localization:
         if self.current_language == "mk":
             return text.format(**kwargs) if kwargs else text
 
-        # translated = self.translations.get(
-        #     self.current_language,
-        #     {},
-        # ).get(text, text)
         clean_text = str(text).strip()
-        lang_dict = self.translations.get(self.current_language, {})
-
-        translated = lang_dict.get(text, lang_dict.get(clean_text, text))
+        translated = self.translations.get(text, self.translations.get(clean_text, text))
 
         if kwargs:
             try:
@@ -54,9 +40,7 @@ class Localization:
 
         return translated
 
-
 localization = Localization()
-
 
 def t(text, **kwargs):
     return localization.translate(text, **kwargs)

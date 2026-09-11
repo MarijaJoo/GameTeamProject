@@ -275,3 +275,22 @@ class GameAPIClient:
             "score": self.offline_score,
             "offline": True,
         }
+
+    def get_translations(self, language):
+        if not self.online:
+            return {}
+
+        try:
+            response = requests.get(
+                f"{self.base_url}/translations/{language}",
+                timeout=3,
+            )
+
+            response.raise_for_status()
+            return response.json()
+
+        except requests.RequestException as error:
+            raise ConnectionError(
+                f"Could not load translations for {language}"
+            ) from error
+
