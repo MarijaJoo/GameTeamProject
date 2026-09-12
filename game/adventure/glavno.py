@@ -60,7 +60,8 @@ from game.arcade.arcade_game import (
 from game.ui_folder.language_panel import (
     LanguagePanel,
 )
-from game.localization import localization
+import os
+import sys
 
 class AdventureGame:
     def __init__(self):
@@ -73,12 +74,14 @@ class AdventureGame:
 
         # self.localization = localization
 
+        game_mode = os.getenv("GAME_MODE", "auto").strip().lower()
         self.api = GameAPIClient(
             base_url="http://127.0.0.1:8000",
-            mode="online"
+            mode=game_mode,
         )
 
-        self.api.connect()
+        connect_timeout = 180 if game_mode == "auto" else 10
+        self.api.connect(timeout_seconds=connect_timeout)
 
         self.scenarios = self.api.get_scenarios()
 

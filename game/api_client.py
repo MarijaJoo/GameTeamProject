@@ -1,7 +1,8 @@
 import copy
-
+import time
 import requests
 
+from game.localization.localization import OFFLINE_TRANSLATIONS
 from game.offline_data import OFFLINE_SCENARIOS
 
 
@@ -27,35 +28,38 @@ class GameAPIClient:
         self.offline_completed_scenarios = set()
         self.offline_arcade_best_scores = {}
 
-    def connect(self):
+    def connect(self, timeout_seconds=180, retry_interval=2):
         if self.mode == "offline":
             self.online = False
             return False
 
-        try:
-            response = requests.get(
-                f"{self.base_url}/scenarios/",
-                timeout=2,
-            )
+        deadline = time.time() + max(0, timeout_seconds)
+        last_error = None
+        while time.time() < deadline:
+            try:
+                response = requests.get(
+                    f"{self.base_url}/scenarios/",
+                    timeout=3,
+                )
 
-            response.raise_for_status()
-            self.online = True
-            return True
+                response.raise_for_status()
+                self.online = True
+                return True
 
-        except requests.RequestException as error:
-            self.online = False
+            except requests.RequestException as error:
+                last_error=error
+                time.sleep(retry_interval)
+        self.online = False
 
-            if self.mode == "online":
-                raise ConnectionError(
-                    "Online mode was selected, but the API "
-                    "could not be reached."
-                ) from error
+        if self.mode == "online":
+            raise ConnectionError(
+                "Online mode was selected, but the API "
+                "could not be reached."
+            ) from error
 
-            print(
-                "API unavailable. Continuing in offline mode."
-            )
+        print("API unavailable. Continuing in offline mode.")
 
-            return False
+        return False
 
     def login_player(self, username):
         if not self.online:
@@ -278,7 +282,7 @@ class GameAPIClient:
 
     def get_translations(self, language):
         if not self.online:
-            return {}
+            return copy.deepcopy(OFFLINE_TRANSLATIONS.get(language, {}))
 
         try:
             response = requests.get(
@@ -289,8 +293,10 @@ class GameAPIClient:
             response.raise_for_status()
             return response.json()
 
-        except requests.RequestException as error:
-            raise ConnectionError(
-                f"Could not load translations for {language}"
-            ) from error
+        except requests.RequestException:
+            self.online = False
+            print(
+                f"Connection lost. Loading offline translations for {language}."
+            )
+            return copy.deepcopy(OFFLINE_TRANSLATIONS.get(language, {}))
 

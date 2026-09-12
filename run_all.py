@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 import time
@@ -27,9 +28,11 @@ def wait_for_api(timeout_seconds=180):
         print(f"   API сè уште не е подготвено... ({attempt})")
         time.sleep(2)
 
-    raise RuntimeError(
+    print(
         f"❌ API-то не успеа да се подготви во рок од {timeout_seconds} секунди."
     )
+    return False
+
 
 
 def seed_api():
@@ -43,12 +46,19 @@ def main():
     print("🚀 Ги стартувам Docker контејнерите (База и API)...")
     subprocess.run(["docker", "compose", "up", "-d"], check=True)
 
-    wait_for_api()
-    seed_api()
+    env= os.environ.copy()
+    if wait_for_api():
+        seed_api()
+        env["GAME_MODE"]="online"
+        print("🎮 Ја пуштам играта во онлајн режим...")
+    else:
+        env["GAME_MODE"]="offline"
+        print("🎮 Ги стартувам играта во офлајн режим...")
 
-    print("🎮 Ја пуштам играта... (Затвори го прозорецот од играта кога ќе завршиш)")
+    print("Затвори го прозорецот од играта кога ќе завршиш!")
+
     try:
-        subprocess.run([sys.executable, "main_adventure.py"], check=True)
+        subprocess.run([sys.executable, "main_adventure.py"], check=True, env=env)
     except subprocess.CalledProcessError as e:
         print(f"Грешка при извршување на играта: {e}")
     finally:
