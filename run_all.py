@@ -21,7 +21,7 @@ def wait_for_api(timeout_seconds=180):
             response = requests.get(url, timeout=3)
             if response.status_code == 200:
                 print("✅ API-то е подготвено!")
-                return
+                return True
         except requests.RequestException:
             pass
 

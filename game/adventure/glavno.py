@@ -60,6 +60,11 @@ from game.arcade.arcade_game import (
 from game.ui_folder.language_panel import (
     LanguagePanel,
 )
+from game.ui_folder.day_intro_panel import (
+    DayIntroPanel,
+)
+
+
 import os
 import sys
 
@@ -232,6 +237,12 @@ class AdventureGame:
         )
 
         self.running = True
+        self.day_intro_panel = DayIntroPanel(
+            self.title_font,
+            self.body_font,
+        )
+
+
 
 
 
@@ -604,6 +615,26 @@ class AdventureGame:
         if self.game_state != "exploring":
             return
 
+        # Show the "New Day" instructions after the player
+        # moves a little from the starting position.
+        if (
+                not self.day_intro_shown
+                and self.day_intro_start_position is not None
+        ):
+            start_x, start_y = self.day_intro_start_position
+
+            current_x, current_y = self.player.rect.center
+
+            distance_moved = (
+                    abs(current_x - start_x)
+                    + abs(current_y - start_y)
+            )
+
+            if distance_moved >= 50:
+                self.day_intro_shown = True
+                self.game_state = "day_intro"
+                return
+
         keys = pygame.key.get_pressed()
 
         self.player.handle_input(
@@ -686,11 +717,20 @@ class AdventureGame:
 
         self.notice_message = ""
         self.notice_until = 0
+
+        self.day_intro_shown = False
+        self.day_intro_start_position = None
+
         self.knowledge_modules = {}
         self.knowledge_popup_message = ""
         self.knowledge_popup_until = 0
 
+        self.day_intro_start_position = (
+            self.player.rect.centerx,
+            self.player.rect.centery,
+        )
         self.game_state = "exploring"
+
 
 
     def _build_final_report(self):

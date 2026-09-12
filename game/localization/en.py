@@ -2603,6 +2603,16 @@ TRANSLATIONS = {
     "but it is a good reason to verify it independently first."
 ),
 
+"НОВ ДЕН": "NEW DAY",
+
+"Сега треба да ги завршиш сите дијалози во секоја соба и да одговориш на прашањата за да освоиш поени.": (
+    "Now you have to complete all dialogues in each room "
+    "and answer the questions to earn points."
+),
+
+"Притисни SPACE за да продолжиш": (
+    "Press SPACE to continue"
+),
 
 
 

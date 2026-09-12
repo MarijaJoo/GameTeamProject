@@ -161,3 +161,7 @@ class GameRenderer:
                 game._build_final_report(),
             )
 
+        elif game.game_state == "day_intro":
+            game.day_intro_panel.draw(
+                game.screen
+            )

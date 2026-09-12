@@ -73,6 +73,17 @@ TRANSLATIONS = {
     "ВНИМАВАЈ!":"DIKKAT!",
     " Притисни SPACE за да продолжиш":"Devam etmek için SPACE tuşuna bas",
 
+"НОВ ДЕН": "YENİ GÜN",
+
+"Сега треба да ги завршиш сите дијалози во секоја соба и да одговориш на прашањата за да освоиш поени.": (
+    "Şimdi her odadaki tüm diyalogları tamamlamalı "
+    "ve puan kazanmak için soruları cevaplamalısın."
+),
+
+"Притисни SPACE за да продолжиш": (
+    "Devam etmek için SPACE tuşuna bas"
+),
+
 
     # Locations
     "Дома": "Ev",

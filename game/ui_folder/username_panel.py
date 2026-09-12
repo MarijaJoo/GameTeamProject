@@ -39,7 +39,7 @@ class UsernamePanel:
 
             if not cleaned_username:
                 self.error_message = (
-                    "Внесете го вашето корисничко име"
+                    t("Внесете го вашето корисничко име")
                 )
                 return None
 

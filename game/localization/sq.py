@@ -75,6 +75,19 @@ TRANSLATIONS = {
 "Јавен компјутер": "Kompjuter publik",
 "Отворена сесија": "Sesion i hapur",
 
+
+
+"НОВ ДЕН": "DITË E RE",
+
+"Сега треба да ги завршиш сите дијалози во секоја соба и да одговориш на прашањата за да освоиш поени.": (
+    "Tani duhet të përfundosh të gjithë dialogët në çdo dhomë "
+    "dhe t'u përgjigjesh pyetjeve për të fituar pikë."
+),
+
+"Притисни SPACE за да продолжиш": (
+    "Shtyp SPACE për të vazhduar"
+),
+
 # Locations
 
 "Дома": "Shtëpi",

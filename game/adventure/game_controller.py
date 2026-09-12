@@ -58,12 +58,30 @@ class GameController:
             "feedback": self._handle_feedback_event,
             "complete": self._handle_complete_event,
             "arcade": self._handle_arcade_event,
+            "day_intro": self._handle_day_intro_event,
         }
 
         handler = handlers.get(state)
 
         if handler is not None:
             handler(event)
+
+    def _handle_day_intro_event(self, event):
+        # Close with SPACE / ENTER
+        if event.type == pygame.KEYDOWN:
+            if event.key in (
+                    pygame.K_SPACE,
+                    pygame.K_RETURN,
+                    pygame.K_KP_ENTER,
+            ):
+                self.game.game_state = "exploring"
+
+        # Close by clicking anywhere with the mouse
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.game.game_state = "exploring"
+
+
 
     def _handle_language_event(self, event):
         game = self.game
