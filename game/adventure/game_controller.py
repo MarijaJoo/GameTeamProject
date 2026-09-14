@@ -67,18 +67,24 @@ class GameController:
             handler(event)
 
     def _handle_day_intro_event(self, event):
-        # Close with SPACE / ENTER
+        is_advance = False
+
         if event.type == pygame.KEYDOWN:
             if event.key in (
                     pygame.K_SPACE,
                     pygame.K_RETURN,
                     pygame.K_KP_ENTER,
             ):
-                self.game.game_state = "exploring"
+                is_advance = True
 
-        # Close by clicking anywhere with the mouse
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
+                is_advance = True
+
+        if is_advance:
+            is_finished = self.game.day_intro_panel.next_page()
+
+            if is_finished:
                 self.game.game_state = "exploring"
 
 

@@ -35,6 +35,12 @@ TRANSLATIONS = {
 "Модули за знаење: {collected} / {required}":
 "Modulet e njohurisë: {collected} / {required}",
 
+"Започна како и секој друг ден. Си ја вршеше вообичаената рутина кога нешто чудно почна да се случува околу тебе.": "Filloi si çdo ditë tjetër. Po vazhdoje me rutinën tënde të zakonshme kur diçka e çuditshme filloi të ndodhte rreth teje.",
+    "Сомнителни пораки, опасни линкови, лажни веб-страници, непознати уреди... сајбер заканите беа насекаде. И колку повеќе гледаше, толку повеќе сфаќаше дека дури и обичните работи можат да те доведат во ризик.": "Mesazhe të dyshimta, lidhje të rrezikshme, uebsajte fallco, pajisje të panjohura... kërcënimet kibernetike ishin kudo. Dhe sa më shumë shikoje, aq më shumë kuptoje se edhe gjërat e zakonshme mund të të vinin në rrezik.",
+    "Сега е на тебе да се заштитиш. Истражи ја секоја соба, соочи се со различни закани за сајбер-безбедноста и искористи го наученото за да останеш безбеден. Подготвен ли си?": "Tani varet nga ti të mbrohesh. Eksploro çdo dhomë, ballafaqohu me rreziqe të ndryshme të sigurisë kibernetike dhe përdor atë që mëson për të mbetur i sigurt. Je gati?",
+                 "Истражи ги сите четири соби, заврши ги дијалозите и предизвиците и собирај знаење. Колку повеќе учиш, толку подобро ќе бидеш подготвен да се одбраниш од сајбер закани." : "Eksploro të katër dhomat, plotëso dialogët dhe sfidat, dhe mblidh njohuri gjatë rrugës. Sa më shumë të mësosh, aq më mirë i përgatitur do të jesh për t'u mbrojtur nga kërcënimet kibernetike.",
+
+
 "Притисни E за да употребиш {name}":
 "Shtyp E për të përdorur {name}",
 

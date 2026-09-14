@@ -43,6 +43,13 @@ TRANSLATIONS = {
     "Притисни E да погледнеш {name}":
         "Press E to inspect {name}",
 
+
+    "THE STORY": "THE STORY",
+    "Започна како и секој друг ден. Си ја вршеше вообичаената рутина кога нешто чудно почна да се случува околу тебе.": "It started like any other day. You were going about your usual routine when something strange began happening around you.",
+    "Сомнителни пораки, опасни линкови, лажни веб-страници, непознати уреди... сајбер заканите беа насекаде. И колку повеќе гледаше, толку повеќе сфаќаше дека дури и обичните работи можат да те доведат во ризик.": "Suspicious messages, dangerous links, fake websites, unknown devices... cyber threats were everywhere. And the more you looked, the more you realized that even ordinary things could put you at risk.",
+    "Сега е на тебе да се заштитиш. Истражи ја секоја соба, соочи се со различни закани за сајбер-безбедноста и искористи го наученото за да останеш безбеден. Подготвен ли си?": "Now it's up to you to protect yourself. Explore each room, face different cyber-security dangers, and use what you learn to stay safe. Are you ready?",
+    "Истражи ги сите четири соби, заврши ги дијалозите и предизвиците и собирај знаење. Колку повеќе учиш, толку подобро ќе бидеш подготвен да се одбраниш од сајбер закани.": "Explore all four rooms, complete the dialogues and challenges, and collect knowledge along the way. The more you learn, the better prepared you'll be to defend yourself from cyber threats.",
+
     "КРАЈНА ОДЛУКА":"FINAL DECISION",
     "ДОБРА ОДЛУКА!":"GOOD DECISION!",
     "ВНИМАВАЈ!": "BE CAREFUL!",

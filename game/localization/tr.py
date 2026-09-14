@@ -44,6 +44,11 @@ TRANSLATIONS = {
     "Притисни E за да го завршиш денот":
         "Günü bitirmek için E tuşuna bas",
 
+"Започна како и секој друг ден. Си ја вршеше вообичаената рутина кога нешто чудно почна да се случува околу тебе.": "Sıradan bir gün gibi başladı. Günlük rutinini yaparken etrafında garip şeyler olmaya başladı.",
+    "Сомнителни пораки, опасни линкови, лажни веб-страници, непознати уреди... сајбер заканите беа насекаде. И колку повеќе гледаше, толку повеќе сфаќаше дека дури и обичните работи можат да те доведат во ризик.": "Şüpheli mesajlar, tehlikeli bağlantılar, sahte web siteleri, bilinmeyen cihazlar... siber tehditler her yerdeydi. Ve baktıkça, sıradan şeylerin bile seni riske atabileceğini fark ettin.",
+    "Сега е на тебе да се заштитиш. Истражи ја секоја соба, соочи се со различни закани за сајбер-безбедноста и искористи го наученото за да останеш безбеден. Подготвен ли си?": "Şimdi kendini korumak senin elinde. Her odayı keşfet, farklı siber güvenlik tehlikeleriyle yüzleş ve güvende kalmak için öğrendiklerini kullan. Hazır mısın?",
+    "Истражи ги сите четири соби, заврши ги дијалозите и предизвиците и собирај знаење. Колку повеќе учиш, толку подобро ќе бидеш подготвен да се одбраниш од сајбер закани.":"Dört odanın hepsini keşfet, diyalogları ve görevleri tamamla, yol boyunca bilgi topla. Ne kadar çok öğrenirsen, kendini siber tehditlerden korumak için o kadar hazırlıklı olursun.",
+
     "Притисни E да погледнеш {name}":
         "{name} incelemek için E tuşuna bas",
 
