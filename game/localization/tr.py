@@ -2811,5 +2811,76 @@ TRANSLATIONS = {
         "Mükemmel. Tüm işaretleri fark ettiniz ve tamamen güvenli bir şekilde hareket ettiniz.",
 
 
+
+"БЕЗБЕДНОСЕН БРАНИТЕЛ": "GÜVENLİK SAVUNUCUSU",
+    "Избери ниво": "Bir seviye seç",
+
+    "НИВО {number}": "SEVİYE {number}",
+    "ОТКЛУЧЕНО": "AÇIK",
+    "ЗАКЛУЧЕНО": "KİLİTLİ",
+
+    "ЗНАЕЊЕ": "BİLGİ",
+    "Собрано знаење: {current} / {total}":
+        "Toplanan bilgi: {current} / {total}",
+    "Кликни на полето: отвори го знаењето":
+        "Kutuyu tıkla: bilgilerini aç",
+
+    "A/D или стрелки: избор    SPACE: играј    ESC: назад":
+        "A/D veya ok tuşları: seç    SPACE: oyna    ESC: geri",
+
+    "Собери ги сите точки на знаење во мрежата.":
+        "Ağdaki tüm bilgi noktalarını topla.",
+    "Движи се со WASD или стрелките.":
+        "WASD veya ok tuşlarıyla hareket et.",
+    "Избегнувај ги сајбер заканите.":
+        "Siber tehditlerden kaçın.",
+
+    "Притисни SPACE за да започнеш":
+        "Başlamak için SPACE tuşuna bas",
+    "Притисни ESC за да се вратиш Дома":
+        "Ana Sayfaya dönmek için ESC tuşuna bas",
+
+    "Поени: {score}":
+        "Puan: {score}",
+    "Животи: {lives}":
+        "Can: {lives}",
+    "Преостанати модули: {remaining}":
+        "Kalan modüller: {remaining}",
+    "Знаење: {number}":
+        "Bilgi: {number}",
+    "ESC: Врати се Дома":
+        "ESC: Ana Sayfaya dön",
+
+    "БЕЗБЕДНОСНО АЖУРИРАЊЕ: {seconds:.1f}s":
+        "GÜVENLİK GÜNCELLEMESİ: {seconds:.1f}s",
+
+    "КРАЈ НА ИГРАТА":
+        "OYUN BİTTİ",
+    "Резултат: {score}":
+        "Skor: {score}",
+    "SPACE: Обиди се повторно    ESC: Назад":
+        "SPACE: Tekrar dene    ESC: Geri",
+
+    "МРЕЖАТА Е ОБЕЗБЕДЕНА!":
+        "AĞ GÜVENLİ HALE GETİRİLDİ!",
+    "Финални поени: {score}":
+        "Final puanı: {score}",
+    "R: Играј повторно    SPACE: Врати се Дома":
+        "R: Tekrar oyna    SPACE: Ana Sayfaya dön",
+
+    "Притисни SPACE за да продолжиш":
+        "Devam etmek için SPACE tuşuna bas",
+
+    "РЕЗИМЕ НА ЗНАЕЊЕТО":
+        "BİLGİ ÖZETİ",
+    "Сè уште немаш собрано знаење.":
+        "Henüz hiç bilgi toplamadın.",
+    "Страница {current}/{total}":
+        "Sayfa {current}/{total}",
+    "Лево/десно: страница    SPACE/клик: назад":
+        "Sol/sağ: sayfa    SPACE/tıklama: geri",
+    "SPACE/клик: назад":
+        "SPACE/tıklama: geri",
+
 }
 

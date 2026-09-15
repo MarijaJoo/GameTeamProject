@@ -2895,6 +2895,75 @@ TRANSLATIONS = {
     "Совршено. Ги препозна сите знаци и постапи целосно безбедно.":
         "Perfect. You recognized all the warning signs and acted completely safely.",
 
+    "БЕЗБЕДНОСЕН БРАНИТЕЛ": "SECURITY DEFENDER",
+    "Избери ниво": "Choose a level",
+
+    "НИВО {number}": "LEVEL {number}",
+    "ОТКЛУЧЕНО": "UNLOCKED",
+    "ЗАКЛУЧЕНО": "LOCKED",
+
+    "ЗНАЕЊЕ": "KNOWLEDGE",
+    "Собрано знаење: {current} / {total}":
+        "Knowledge collected: {current} / {total}",
+    "Кликни на полето: отвори го знаењето":
+        "Click the box: open your knowledge",
+
+    "A/D или стрелки: избор    SPACE: играј    ESC: назад":
+        "A/D or arrows: select    SPACE: play    ESC: back",
+
+    "Собери ги сите точки на знаење во мрежата.":
+        "Collect all knowledge points in the network.",
+    "Движи се со WASD или стрелките.":
+        "Move with WASD or the arrow keys.",
+    "Избегнувај ги сајбер заканите.":
+        "Avoid the cyber threats.",
+
+    "Притисни SPACE за да започнеш":
+        "Press SPACE to start",
+    "Притисни ESC за да се вратиш Дома":
+        "Press ESC to return Home",
+
+    "Поени: {score}":
+        "Score: {score}",
+    "Животи: {lives}":
+        "Lives: {lives}",
+    "Преостанати модули: {remaining}":
+        "Remaining modules: {remaining}",
+    "Знаење: {number}":
+        "Knowledge: {number}",
+    "ESC: Врати се Дома":
+        "ESC: Return Home",
+
+    "БЕЗБЕДНОСНО АЖУРИРАЊЕ: {seconds:.1f}s":
+        "SECURITY UPDATE: {seconds:.1f}s",
+
+    "КРАЈ НА ИГРАТА":
+        "GAME OVER",
+    "Резултат: {score}":
+        "Score: {score}",
+    "SPACE: Обиди се повторно    ESC: Назад":
+        "SPACE: Try again    ESC: Back",
+
+    "МРЕЖАТА Е ОБЕЗБЕДЕНА!":
+        "NETWORK SECURED!",
+    "Финални поени: {score}":
+        "Final score: {score}",
+    "R: Играј повторно    SPACE: Врати се Дома":
+        "R: Play again    SPACE: Return Home",
+
+    "Притисни SPACE за да продолжиш":
+        "Press SPACE to continue",
+
+    "РЕЗИМЕ НА ЗНАЕЊЕТО":
+        "KNOWLEDGE SUMMARY",
+    "Сè уште немаш собрано знаење.":
+        "You have not collected any knowledge yet.",
+    "Страница {current}/{total}":
+        "Page {current}/{total}",
+    "Лево/десно: страница    SPACE/клик: назад":
+        "Left/right: page    SPACE/click: back",
+    "SPACE/клик: назад":
+        "SPACE/click: back",
 
 
 

@@ -3180,5 +3180,79 @@ TRANSLATIONS = {
 "Analizë e shkëlqyer dhe vendim përfundimtar i saktë.",
 
 "Совршено. Ги препозна сите знаци и постапи целосно безбедно.":
-"Përsosshëm. I njohët të gjitha shenjat dhe vepruat plotësisht në mënyrë të sigurt."
+"Përsosshëm. I njohët të gjitha shenjat dhe vepruat plotësisht në mënyrë të sigurt.",
+
+
+"БЕЗБЕДНОСЕН БРАНИТЕЛ": "MBROJTËSI I SIGURISË",
+"Избери ниво": "Zgjidh një nivel",
+
+"НИВО {number}": "NIVELI {number}",
+"ОТКЛУЧЕНО": "E HAPUR",
+"ЗАКЛУЧЕНО": "E KYÇUR",
+
+"ЗНАЕЊЕ": "NJOHURI",
+"Собрано знаење: {current} / {total}":
+"Njohuri të mbledhura: {current} / {total}",
+"Кликни на полето: отвори го знаењето":
+"Kliko kutinë: hap njohuritë",
+
+"A/D или стрелки: избор    SPACE: играј    ESC: назад":
+"A/D ose shigjetat: zgjidh    SPACE: luaj    ESC: mbrapa",
+
+"Собери ги сите точки на знаење во мрежата.":
+"Mblidh të gjitha pikat e njohurisë në rrjet.",
+"Движи се со WASD или стрелките.":
+"Lëviz me WASD ose me shigjetat.",
+"Избегнувај ги сајбер заканите.":
+"Shmang kërcënimet kibernetike.",
+
+"Притисни SPACE за да започнеш":
+"Shtyp SPACE për të filluar",
+"Притисни ESC за да се вратиш Дома":
+"Shtyp ESC për t'u kthyer në Krye",
+
+"Поени: {score}":
+"Pikë: {score}",
+"Животи: {lives}":
+"Jetë: {lives}",
+"Преостанати модули: {remaining}":
+"Module të mbetura: {remaining}",
+"Знаење: {number}":
+"Njohuri: {number}",
+"ESC: Врати се Дома":
+"ESC: Kthehu në Krye",
+
+"БЕЗБЕДНОСНО АЖУРИРАЊЕ: {seconds:.1f}s":
+"PËRDITËSIM SIGURIE: {seconds:.1f}s",
+
+"КРАЈ НА ИГРАТА":
+"LOJA PËRFUNDOI",
+"Резултат: {score}":
+"Rezultati: {score}",
+"SPACE: Обиди се повторно    ESC: Назад":
+"SPACE: Provo përsëri    ESC: Mbrapa",
+
+"МРЕЖАТА Е ОБЕЗБЕДЕНА!":
+"RRJETI ËSHTË SIGURUAR!",
+"Финални поени: {score}":
+"Pikët përfundimtare: {score}",
+"R: Играј повторно    SPACE: Врати се Дома":
+"R: Luaj përsëri    SPACE: Kthehu në Krye",
+
+"Притисни SPACE за да продолжиш":
+"Shtyp SPACE për të vazhduar",
+
+"РЕЗИМЕ НА ЗНАЕЊЕТО":
+"PËRMBLEDHJE E NJOHURIVE",
+"Сè уште немаш собрано знаење.":
+"Ende nuk ke mbledhur asnjë njohuri.",
+"Страница {current}/{total}":
+"Faqja {current}/{total}",
+"Лево/десно: страница    SPACE/клик: назад":
+"Majtas/djathtas: faqe    SPACE/klik: mbrapa",
+"SPACE/клик: назад":
+"SPACE/klik: mbrapa",
+
+
+
 }

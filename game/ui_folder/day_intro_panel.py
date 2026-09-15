@@ -36,7 +36,7 @@ class DayIntroPanel:
         screen.blit(overlay, (0, 0))
 
         # Popup
-        panel = pygame.Rect(140, 170, WIDTH - 280, 330)
+        panel = pygame.Rect(140, 150, WIDTH - 280, 360)
 
         pygame.draw.rect(screen, (42, 48, 66), panel, border_radius=16)
         pygame.draw.rect(
@@ -53,9 +53,9 @@ class DayIntroPanel:
         self._draw_wrapped_text(
             screen,
             t(current_text),
-            panel.x + 45,
-            panel.y + 115,
-            panel.width - 90,
+            panel.x + 40,
+            panel.y + 85,
+            panel.width - 80,
         )
 
         page_indicator = f"({self.page + 1}/{len(self.pages)}) "
@@ -87,8 +87,7 @@ class DayIntroPanel:
         if current_line:
             lines.append(current_line)
 
-        line_height = self.body_font.get_height() + 8
-
+        line_height = self.body_font.get_height() + 3
         for line in lines:
             rendered = self.body_font.render(line, True, TEXT_COLOR)
             screen.blit(rendered, (x, y))

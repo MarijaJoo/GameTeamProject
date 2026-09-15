@@ -1,5 +1,8 @@
 import pygame
 
+from game.arcade.knowledge_topics import KNOWLEDGE_TOPICS
+from game.arcade.knowledge_summary_panel import KnowledgeSummaryPanel
+
 from game.localization import t
 
 
@@ -35,6 +38,12 @@ class ArcadeGame:
 
         self.title_font = title_font
         self.body_font = body_font
+
+        self.knowledge_summary_panel = KnowledgeSummaryPanel(
+            self.width,
+            self.height
+        )
+        self.earned_knowledge = []
 
         self.active = False
         self.state = "start"
@@ -216,6 +225,36 @@ class ArcadeGame:
         )
 
     def handle_event(self,event,):
+
+        if self.state == "knowledge_summary":
+            result = self.knowledge_summary_panel.handle_event(
+                event
+            )
+
+            if result == "close":
+                self.knowledge_summary_panel.close()
+                self.state = "level_select"
+                return False
+
+            return False
+
+        if self.state == "level_select":
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    knowledge_box = pygame.Rect(
+                        190,
+                        425,
+                        self.width - 380,
+                        125,
+                    )
+
+                    if knowledge_box.collidepoint(event.pos):
+                        self.knowledge_summary_panel.open()
+                        self.state = "knowledge_summary"
+                        return False
+
+
+
         if event.type != pygame.KEYDOWN:
             return False
 
@@ -331,19 +370,20 @@ class ArcadeGame:
         )
 
         if knowledge_dot is not None:
-            self.score += (
-                knowledge_dot.POINTS
-            )
+            self.score += knowledge_dot.POINTS
 
-            self.active_knowledge_dot = (
-                knowledge_dot
-            )
+            if knowledge_dot.topic not in self.earned_knowledge:
+                self.earned_knowledge.append(
+                    knowledge_dot.topic
+                )
 
-            self.state = (
-                "knowledge_popup"
-            )
+            self.active_knowledge_dot = knowledge_dot
+
+            self.state = "knowledge_popup"
 
             return
+
+
         software_update = (
             self.arcade_map
             .check_software_update_collision(
@@ -487,6 +527,13 @@ class ArcadeGame:
         elif self.state == "knowledge_popup":
             self._draw_gameplay(screen)
             self._draw_knowledge_popup(screen)
+        elif self.state == "knowledge_summary":
+            self._draw_level_select(screen)
+
+            self.knowledge_summary_panel.draw(
+                screen,
+                self.earned_knowledge,
+            )
 
     def _draw_background_grid(self, screen, ):
         grid_size = 40
@@ -666,6 +713,85 @@ class ArcadeGame:
             )
 
             screen.blit(status_text,status_rect,)
+        knowledge_box = pygame.Rect(
+            190,
+            425,
+            self.width - 380,
+            125,
+        )
+
+        pygame.draw.rect(
+            screen,
+            ARCADE_PANEL_COLOR,
+            knowledge_box,
+            border_radius=12,
+        )
+
+        pygame.draw.rect(
+            screen,
+            ARCADE_ACCENT_COLOR,
+            knowledge_box,
+            3,
+            border_radius=12,
+        )
+
+        knowledge_title = self.body_font.render(
+            t("ЗНАЕЊЕ"),
+            True,
+            ARCADE_ACCENT_COLOR,
+        )
+
+        knowledge_title_rect = knowledge_title.get_rect(
+            center=(
+                knowledge_box.centerx,
+                knowledge_box.y + 28,
+            )
+        )
+
+        screen.blit(
+            knowledge_title,
+            knowledge_title_rect,
+        )
+
+        knowledge_count = self.body_font.render(
+            t(
+                "Собрано знаење: {current} / {total}",
+                current=len(self.earned_knowledge),
+                total=len(KNOWLEDGE_TOPICS),
+            ),
+            True,
+            ARCADE_TEXT_COLOR,
+        )
+
+        knowledge_count_rect = knowledge_count.get_rect(
+            center=(
+                knowledge_box.centerx,
+                knowledge_box.y + 62,
+            )
+        )
+
+        screen.blit(
+            knowledge_count,
+            knowledge_count_rect,
+        )
+
+        knowledge_hint = self.body_font.render(
+            t("Кликни на полето: отвори го знаењето"),
+            True,
+            ARCADE_SUBTEXT_COLOR,
+        )
+
+        knowledge_hint_rect = knowledge_hint.get_rect(
+            center=(
+                knowledge_box.centerx,
+                knowledge_box.y + 95,
+            )
+        )
+
+        screen.blit(
+            knowledge_hint,
+            knowledge_hint_rect,
+        )
 
         controls = self.body_font.render(
             (
