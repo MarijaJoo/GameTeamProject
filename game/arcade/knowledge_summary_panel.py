@@ -12,7 +12,10 @@ from game.localization import t
 
 
 class KnowledgeSummaryPanel:
-    ITEMS_PER_PAGE = 16
+    # 8 items = 2 columns x 4 rows
+    # This gives every knowledge item enough room
+    # for its complete description.
+    ITEMS_PER_PAGE = 8
 
     def __init__(self, width, height):
         self.width = width
@@ -22,7 +25,6 @@ class KnowledgeSummaryPanel:
 
         self.overlay_color = (5, 10, 20, 225)
 
-        # Larger window so the knowledge screen has more space.
         self.panel = pygame.Rect(
             35,
             25,
@@ -37,14 +39,8 @@ class KnowledgeSummaryPanel:
         self.current_page = 0
 
     def handle_event(self, event):
-        """
-        Returns:
-            True      -> event was handled
-            False     -> event was not handled
-            "close"   -> close the knowledge window
-        """
-
         if event.type == pygame.KEYDOWN:
+
             if event.key in (
                 pygame.K_ESCAPE,
                 pygame.K_SPACE,
@@ -70,6 +66,7 @@ class KnowledgeSummaryPanel:
                 return True
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
+
             if event.button == 1:
                 return "close"
 
@@ -110,11 +107,6 @@ class KnowledgeSummaryPanel:
         ) // self.ITEMS_PER_PAGE
 
     def _get_collected_topics(self):
-        """
-        This panel receives the topics that the player
-        has actually collected.
-        """
-
         return getattr(
             self,
             "_collected_topics",
@@ -122,27 +114,22 @@ class KnowledgeSummaryPanel:
         )
 
     def draw(self, screen, collected_topics):
-        """
-        Draw the knowledge summary.
 
-        collected_topics should be a list of topic
-        dictionaries from KNOWLEDGE_TOPICS.
-        """
-
-        self._collected_topics = collected_topics or []
+        self._collected_topics = (
+            collected_topics or []
+        )
 
         total_pages = self.get_total_pages()
 
-        # Safety: don't allow an invalid page.
         if self.current_page >= total_pages:
             self.current_page = max(
                 0,
                 total_pages - 1,
             )
 
-        # -------------------------------------------------
+        # =================================================
         # DARK OVERLAY
-        # -------------------------------------------------
+        # =================================================
 
         overlay = pygame.Surface(
             (self.width, self.height),
@@ -156,9 +143,9 @@ class KnowledgeSummaryPanel:
             (0, 0),
         )
 
-        # -------------------------------------------------
+        # =================================================
         # MAIN PANEL
-        # -------------------------------------------------
+        # =================================================
 
         pygame.draw.rect(
             screen,
@@ -175,9 +162,9 @@ class KnowledgeSummaryPanel:
             border_radius=18,
         )
 
-        # -------------------------------------------------
+        # =================================================
         # TITLE
-        # -------------------------------------------------
+        # =================================================
 
         title_font = pygame.font.Font(
             None,
@@ -193,8 +180,8 @@ class KnowledgeSummaryPanel:
         title_rect = title.get_rect(
             center=(
                 self.panel.centerx,
-                self.panel.y + 30,
-            )
+                self.panel.y + 28,
+            ),
         )
 
         screen.blit(
@@ -202,11 +189,12 @@ class KnowledgeSummaryPanel:
             title_rect,
         )
 
-        # -------------------------------------------------
+        # =================================================
         # EMPTY STATE
-        # -------------------------------------------------
+        # =================================================
 
         if not self._collected_topics:
+
             empty_font = pygame.font.Font(
                 None,
                 27,
@@ -236,9 +224,9 @@ class KnowledgeSummaryPanel:
 
             return
 
-        # -------------------------------------------------
+        # =================================================
         # PAGE TEXT
-        # -------------------------------------------------
+        # =================================================
 
         page_font = pygame.font.Font(
             None,
@@ -258,8 +246,8 @@ class KnowledgeSummaryPanel:
         page_rect = page_text.get_rect(
             center=(
                 self.panel.centerx,
-                self.panel.y + 57,
-            )
+                self.panel.y + 55,
+            ),
         )
 
         screen.blit(
@@ -267,9 +255,9 @@ class KnowledgeSummaryPanel:
             page_rect,
         )
 
-        # -------------------------------------------------
-        # CURRENT PAGE ITEMS
-        # -------------------------------------------------
+        # =================================================
+        # PAGE ITEMS
+        # =================================================
 
         start_index = (
             self.current_page
@@ -285,12 +273,12 @@ class KnowledgeSummaryPanel:
             start_index:end_index
         ]
 
-        # -------------------------------------------------
+        # =================================================
         # TWO COLUMNS
-        # -------------------------------------------------
+        # =================================================
 
         column_width = (
-            self.panel.width - 70
+            self.panel.width - 75
         ) // 2
 
         left_x = self.panel.x + 25
@@ -301,17 +289,15 @@ class KnowledgeSummaryPanel:
             + column_width
         )
 
-        # Start the cards higher because the title
-        # and page text are now smaller.
-        top_y = self.panel.y + 82
+        # 4 rows with taller cards.
+        top_y = self.panel.y + 78
 
-        # Slightly smaller spacing allows all
-        # 16 items to fit comfortably.
-        row_height = 59
+        row_height = 125
 
         for index, topic in enumerate(
             page_items
         ):
+
             column = index % 2
             row = index // 2
 
@@ -330,9 +316,9 @@ class KnowledgeSummaryPanel:
                 column_width - 10,
             )
 
-        # -------------------------------------------------
+        # =================================================
         # FOOTER
-        # -------------------------------------------------
+        # =================================================
 
         self._draw_footer(
             screen,
@@ -347,9 +333,6 @@ class KnowledgeSummaryPanel:
         y,
         width,
     ):
-        # -------------------------------------------------
-        # TOPIC DATA
-        # -------------------------------------------------
 
         name = topic.get(
             "name",
@@ -364,15 +347,17 @@ class KnowledgeSummaryPanel:
         name = t(name)
         description = t(description)
 
-        # -------------------------------------------------
-        # ITEM BACKGROUND
-        # -------------------------------------------------
+        # =================================================
+        # CARD
+        # =================================================
+
+        item_height = 112
 
         item_rect = pygame.Rect(
             x,
             y,
             width,
-            51,
+            item_height,
         )
 
         pygame.draw.rect(
@@ -390,9 +375,9 @@ class KnowledgeSummaryPanel:
             border_radius=10,
         )
 
-        # -------------------------------------------------
+        # =================================================
         # TOPIC NAME
-        # -------------------------------------------------
+        # =================================================
 
         font_name = pygame.font.Font(
             None,
@@ -405,36 +390,35 @@ class KnowledgeSummaryPanel:
             ARCADE_ACCENT_COLOR,
         )
 
-        # Prevent very long names from leaving
-        # the card.
-        if name_surface.get_width() > width - 24:
-            while (
-                font_name.get_height() > 15
-                and name_surface.get_width()
-                > width - 24
-            ):
-                font_name = pygame.font.Font(
-                    None,
-                    font_name.get_height() - 1,
-                )
+        # Scale the name down if necessary.
+        while (
+            name_surface.get_width()
+            > width - 24
+            and font_name.get_height() > 16
+        ):
 
-                name_surface = font_name.render(
-                    name,
-                    True,
-                    ARCADE_ACCENT_COLOR,
-                )
+            font_name = pygame.font.Font(
+                None,
+                font_name.get_height() - 1,
+            )
+
+            name_surface = font_name.render(
+                name,
+                True,
+                ARCADE_ACCENT_COLOR,
+            )
 
         screen.blit(
             name_surface,
             (
                 x + 12,
-                y + 6,
+                y + 7,
             ),
         )
 
-        # -------------------------------------------------
-        # DESCRIPTION
-        # -------------------------------------------------
+        # =================================================
+        # FULL DESCRIPTION
+        # =================================================
 
         font_description = pygame.font.Font(
             None,
@@ -447,11 +431,14 @@ class KnowledgeSummaryPanel:
             width - 24,
         )
 
-        # Keep the grid compact.
-        if lines:
+        description_y = y + 33
+
+        # Draw EVERY wrapped line.
+        for line in lines:
+
             description_surface = (
                 font_description.render(
-                    lines[0],
+                    line,
                     True,
                     ARCADE_TEXT_COLOR,
                 )
@@ -461,9 +448,18 @@ class KnowledgeSummaryPanel:
                 description_surface,
                 (
                     x + 12,
-                    y + 29,
+                    description_y,
                 ),
             )
+
+            description_y += 18
+
+            # Safety: never draw outside the card.
+            if (
+                description_y
+                >= y + item_height - 5
+            ):
+                break
 
     def _wrap_text(
         self,
@@ -471,12 +467,14 @@ class KnowledgeSummaryPanel:
         font,
         maximum_width,
     ):
+
         words = text.split()
 
         lines = []
         current_line = ""
 
         for word in words:
+
             test_line = (
                 f"{current_line} {word}".strip()
             )
@@ -485,8 +483,11 @@ class KnowledgeSummaryPanel:
                 font.size(test_line)[0]
                 <= maximum_width
             ):
+
                 current_line = test_line
+
             else:
+
                 if current_line:
                     lines.append(
                         current_line
@@ -506,18 +507,20 @@ class KnowledgeSummaryPanel:
         screen,
         total_pages,
     ):
-        # Smaller footer so it never crowds
-        # the knowledge cards.
+
         font = pygame.font.Font(
             None,
             19,
         )
 
         if total_pages > 1:
+
             controls = t(
                 "Лево/десно: страница    SPACE/клик: назад"
             )
+
         else:
+
             controls = t(
                 "SPACE/клик: назад"
             )
@@ -532,7 +535,7 @@ class KnowledgeSummaryPanel:
             center=(
                 self.panel.centerx,
                 self.panel.bottom - 18,
-            )
+            ),
         )
 
         screen.blit(
