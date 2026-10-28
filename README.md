@@ -1,3 +1,5 @@
+A web application that helps children to learn about Cyber Security though game.
+
 Things to do when dowload the code:
 I: Install all the nesesary libraries and a MUST is to have a python not bigger than version: 3.13.14. 
 Beacuse with updated python pygame is not working :)
